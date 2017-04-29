@@ -6,8 +6,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
     name = models.CharField(max_length=30, blank=True)
-    date_of_birth = models.DateField(blank=True, null=True)
-    location = models.CharField(max_length=50, blank=True)
+    birth_date = models.DateField(blank=True, null=True)
+    location = models.CharField(max_length=30, blank=True)
     
     class Sexes(Enum):
         male = 0
