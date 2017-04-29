@@ -16,15 +16,21 @@ class Profile(models.Model):
         female = 'f'
     gender = models.CharField(max_length=1, choices=[(s.value, s.name) for s in Genders], blank=True)
     
-    # when a User is created, create a corresponding Profile for it
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
+        """
+        When a User is created, create a corresponding Profile for it.
+        """
+        
         if created:
             Profile.objects.create(user=instance)
     
-    # when a User is saved, save its corresponding Profile too
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
+        """
+        When a User is saved, save its corresponding Profile too.
+        """
+        
         instance.profile.save()
     
     def __str__(self):
