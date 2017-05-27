@@ -18,7 +18,7 @@ from django.conf.global_settings import LOGIN_REDIRECT_URL
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-LOGIN_REDIRECT_URL = 'user_profile'
+LOGIN_REDIRECT_URL = 'profile'
 
 
 # Quick-start development settings - unsuitable for production
