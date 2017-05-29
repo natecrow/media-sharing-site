@@ -1,7 +1,24 @@
-from django.shortcuts import render
+from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import login, logout
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url="login")
 def profile(request):
     return render(request, 'accounts/profile.html')
 
-def logged_out(request):
-    return render(request, 'logged_out.html')
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('profile')
+    else:
+        form = UserCreationForm()
+    return render(request, 'accounts/signup.html', {'form': form})
