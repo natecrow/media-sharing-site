@@ -4,6 +4,8 @@ from django.contrib.auth.views import login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
+from .forms import SignUpForm
+
 
 @login_required(login_url="login")
 def profile(request):
@@ -11,7 +13,7 @@ def profile(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -20,5 +22,5 @@ def signup(request):
             login(request, user)
             return redirect('profile')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, 'accounts/signup.html', {'form': form})
