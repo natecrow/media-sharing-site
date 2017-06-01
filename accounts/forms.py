@@ -4,9 +4,11 @@ from django.contrib.auth.models import User
 
 
 class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30, required=False)
     email = forms.EmailField(max_length=254, help_text='Required.')
+    birth_date = forms.DateField(help_text='Format: YYYY-MM-DD')
+    location = forms.CharField(max_length=30, required=False)
     
     class Meta:
         model = User
