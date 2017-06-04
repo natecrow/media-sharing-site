@@ -7,7 +7,7 @@ from django.urls.base import resolve
 from accounts import views
 
 
-class LoginTestCase(TestCase):
+class urlResolutionTestCase(TestCase):
     
     def test_profile_url_resolves_to_profile_view(self):
         found = resolve('/accounts/profile')
