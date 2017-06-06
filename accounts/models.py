@@ -12,6 +12,7 @@ class Profile(models.Model):
     location = models.CharField(max_length=30, blank=True)
     
     class Genders(Enum):
+        unspecified = '-'
         male = 'm'
         female = 'f'
     gender = models.CharField(max_length=1, choices=[(s.value, s.name) for s in Genders], blank=True)
