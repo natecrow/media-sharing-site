@@ -9,7 +9,7 @@ class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False)
     last_name = forms.CharField(max_length=30, required=False)
     email = forms.EmailField(max_length=254, help_text='Required.')
-    birth_date = forms.DateField(help_text='Format: YYYY-MM-DD')
+    birth_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
     location = forms.CharField(max_length=30, required=False)
     gender = forms.ChoiceField(choices=[(s.value, s.name) for s in Profile.Genders], required=False)
     
