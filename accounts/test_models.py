@@ -12,6 +12,7 @@ TEST_GENDER = 'm'
 TEST_LOCATION = 'somewhere'
  
 class ModelTests(TestCase):
+    
     def setUp(self):
         # create test test_user
         self.test_user = User.objects.create_user(
