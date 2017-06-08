@@ -2,11 +2,11 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.urls.base import resolve
 
 from accounts import views
-from django.core.urlresolvers import reverse
 
 
 class ViewTests(TestCase):
