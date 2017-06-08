@@ -11,7 +11,7 @@ TEST_BIRTH_DATE = '1990-01-01'
 TEST_GENDER = 'm'
 TEST_LOCATION = 'somewhere'
  
-class LoginTestCase(TestCase):
+class ModelTests(TestCase):
     def setUp(self):
         # create test test_user
         self.test_user = User.objects.create_user(

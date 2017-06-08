@@ -1,13 +1,19 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.models import User
 from django.contrib.auth.views import login
 from django.test import TestCase
 from django.urls.base import resolve
 
 from accounts import views
+from django.core.urlresolvers import reverse
 
 
-class urlResolutionTestCase(TestCase):
+class ViewTests(TestCase):
+    
+    def setUp(self):
+        self.credentials = {'username': 'test123', 'password': 'test123'}
+        self.user = User.objects.create_user(**self.credentials)
     
     def test_profile_url_resolves_to_profile_view(self):
         found = resolve('/accounts/profile')
@@ -24,4 +30,8 @@ class urlResolutionTestCase(TestCase):
     def test_signup_url_resolves_to_signup_view(self):
         found = resolve('/accounts/signup')
         self.assertEqual(found.func, views.signup)
+        
+    def test_login_redirect(self):
+        response = self.client.post(reverse('login'), self.credentials)
+        self.assertRedirects(response, '/accounts/profile')
         
