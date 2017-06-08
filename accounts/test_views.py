@@ -12,7 +12,7 @@ from accounts import views
 class ViewTests(TestCase):
     
     def setUp(self):
-        self.credentials = {'username': 'test123', 'password': 'test123'}
+        self.credentials = {'username': 'test123', 'password': 'password123'}
         self.user = User.objects.create_user(**self.credentials)
     
     def test_profile_url_resolves_to_profile_view(self):
