@@ -17,7 +17,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-LOGIN_REDIRECT_URL = 'profile'
+LOGIN_REDIRECT_URL = 'accounts:profile'
 
 
 # Quick-start development settings - unsuitable for production
@@ -59,7 +59,7 @@ ROOT_URLCONF = 'mediasharingsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates').replace('\\','/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -32,6 +32,6 @@ class ViewTests(TestCase):
         self.assertEqual(found.func, views.signup)
         
     def test_login_redirect(self):
-        response = self.client.post(reverse('login'), self.credentials)
+        response = self.client.post(reverse('accounts:login'), self.credentials)
         self.assertRedirects(response, '/accounts/profile')
         

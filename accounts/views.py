@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm
 
 
-@login_required(login_url="login")
+@login_required(login_url="accounts:login")
 def profile(request):
     return render(request, 'accounts/profile.html')
 
@@ -23,7 +23,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('profile')
+            return redirect('accounts:profile')
     else:
         form = SignUpForm()
     return render(request, 'accounts/signup.html', {'form': form})
