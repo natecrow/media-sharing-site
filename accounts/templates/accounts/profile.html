@@ -11,5 +11,6 @@
     <li>Gender: {{ user.profile.get_gender_display }}</li>
     <li>Location: {{ user.profile.location }}</li>
     <li>Birth Date: {{ user.profile.birth_date }}</li>
+    <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
   </ul>
 {% endblock %}
