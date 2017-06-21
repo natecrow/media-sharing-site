@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^accounts/', include('accounts.urls')),
+    url(r'^core/', include('core.urls')),
 ]
 
 if settings.DEBUG:
