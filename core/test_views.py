@@ -9,5 +9,5 @@ class ViewTests(TestCase):
      
     def test_upload_url_resolves_to_upload_view(self):
         found = resolve('/core/upload')
-        self.assertEqual(found.func, views.simple_upload)
+        self.assertEqual(found.func, views.model_form_upload)
     
