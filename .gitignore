@@ -105,3 +105,10 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+
+#========================================
+# VISUAL STUDIO CODE
+#========================================
+
+.vscode/
