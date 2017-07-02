@@ -10,9 +10,10 @@ TEST_PASSWORD = 'password123'
 TEST_BIRTH_DATE = '1990-01-01'
 TEST_GENDER = 'm'
 TEST_LOCATION = 'somewhere'
- 
-class ModelTests(TestCase):
-    
+
+
+class TestModels(TestCase):
+
     def setUp(self):
         # create test test_user
         self.test_user = User.objects.create_user(
@@ -30,22 +31,21 @@ class ModelTests(TestCase):
 
     def tearDown(self):
         User.objects.get(username=TEST_USERNAME).delete()
-    
+
     def test_user_first_name_set_correctly(self):
         self.assertEqual(self.test_user.first_name, TEST_FIRST_NAME)
-        
-    def test_user_first_name_set_correctly(self):
+
+    def test_user_last_name_set_correctly(self):
         self.assertEqual(self.test_user.last_name, TEST_LAST_NAME)
-        
+
     def test_user_email_set_correctly(self):
         self.assertEqual(self.test_user.email, TEST_EMAIL)
-        
+
     def test_user_birth_date_set_correctly(self):
         self.assertEqual(self.test_user.profile.birth_date, TEST_BIRTH_DATE)
-        
+
     def test_user_gender_set_correctly(self):
         self.assertEqual(self.test_user.profile.gender, TEST_GENDER)
-        
+
     def test_user_location_set_correctly(self):
-        self.assertEqual(self.test_user.profile.location, TEST_LOCATION)        
-        
+        self.assertEqual(self.test_user.profile.location, TEST_LOCATION)

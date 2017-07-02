@@ -1,8 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import login, logout
-from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render, redirect
+from django.contrib.auth.views import login
+from django.shortcuts import redirect, render
 
 from .forms import SignUpForm
 
@@ -11,12 +10,14 @@ from .forms import SignUpForm
 def profile(request):
     return render(request, 'accounts/profile.html')
 
+
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user.refresh_from_db()  # load profile instance created by the signal
+            # load profile instance created by the signal
+            user.refresh_from_db()
             user.profile.birth_date = form.cleaned_data.get('birth_date')
             user.profile.gender = form.cleaned_data.get('gender')
             user.profile.location = form.cleaned_data.get('location')

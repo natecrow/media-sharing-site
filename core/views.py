@@ -1,9 +1,6 @@
-from django.core.files.storage import FileSystemStorage
-from django.forms.forms import Form
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 
 from core.forms import DocumentForm
-from core.models import Document
 
 
 def model_form_upload(request):
