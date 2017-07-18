@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^logout$', auth_views.logout, {
         'template_name': 'accounts/logged_out.html'}, name='logout'),
     url(r'^signup$', views.signup, name='signup'),
+    url(r'^upload-profile-picture$', views.upload_file, name='upload'),
 ]

@@ -1,9 +1,11 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from .forms import SignUpForm
+from .forms import SignUpForm, UploadProfilePictureForm
+from .models import Profile
 
 
 @login_required(login_url='accounts:login')
@@ -29,3 +31,22 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'accounts/signup.html', {'form': form})
+
+
+def upload_file(request):
+
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        Profile(user=request.user)
+
+    if request.method == 'POST':
+        form = UploadProfilePictureForm(
+            request.POST, files=request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:profile')
+    else:
+        form = UploadProfilePictureForm(instance=profile)
+    return render(request, 'accounts/upload_profile_picture.html',
+                  {'form': form})

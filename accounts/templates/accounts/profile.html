@@ -4,6 +4,7 @@
 
 {% block content %}
   <h2>{{ user.username }}</h2>
+  <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}'s profile picture" height="150" width="150">
   <ul>
     <li>Username: {{ user.username }}</li>
     <li>Name: {{ user.first_name }} {{ user.last_name }}</li>
@@ -12,4 +13,7 @@
     <li>Location: {{ user.profile.location }}</li>
     <li>Birth Date: {{ user.profile.birth_date }}</li>
   </ul>
+  <p>
+    <a href="{% url 'accounts:upload' %}">Upload profile picture</a>
+  </p>
 {% endblock %}
