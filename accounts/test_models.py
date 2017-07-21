@@ -15,7 +15,7 @@ TEST_LOCATION = 'somewhere'
 class TestModels(TestCase):
 
     def setUp(self):
-        # create test test_user
+        # create test user
         self.test_user = User.objects.create_user(
             first_name=TEST_FIRST_NAME,
             last_name=TEST_LAST_NAME,

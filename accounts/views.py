@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
 from .forms import SignUpForm, UploadProfilePictureForm
@@ -33,6 +32,7 @@ def signup(request):
     return render(request, 'accounts/signup.html', {'form': form})
 
 
+@login_required(login_url='accounts:login')
 def upload_file(request):
 
     try:
