@@ -12,7 +12,7 @@ TEST_GENDER = 'm'
 TEST_LOCATION = 'somewhere'
 
 
-class TestModels(TestCase):
+class TestProfile(TestCase):
 
     def setUp(self):
         # create test user

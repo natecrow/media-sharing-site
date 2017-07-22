@@ -1,9 +1,9 @@
 from django.test import TestCase
 
-from .forms import SignUpForm
+from ..forms import SignUpForm
 
 
-class TestSignUpForm(TestCase):
+class TestSignupForm(TestCase):
 
     def setUp(self):
         self.valid_data = {

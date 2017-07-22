@@ -1,6 +1,5 @@
 from django.test import TestCase
 from django.urls.base import resolve
-# from django.views.generic import TemplateView
 
 
 class TestTemplateView(TestCase):

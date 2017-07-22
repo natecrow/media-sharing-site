@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.urls.base import resolve
 
-from accounts import views
+from .. import views
 
 
 TEST_FIRST_NAME = 'test_first_name'
@@ -51,11 +51,11 @@ class TestViews(TestCase):
         found = resolve('/accounts/signup')
         self.assertEqual(found.func, views.signup)
 
-    def test_upload_profile_picture_url_resolution(self):
-        found = resolve('/accounts/upload-profile-picture')
-        self.assertEqual(found.func, views.upload_file)
+    # def test_upload_profile_picture_url_resolution(self):
+    #     found = resolve('/accounts/upload-profile-picture')
+    #     self.assertEqual(found.func, views.upload_file)
 
-    def test_redirect_to_profile_page_after_logging_in(self):
-        response = self.client.post(
-            reverse('accounts:login'), self.credentials)
-        self.assertRedirects(response, '/accounts/profile')
+    # def test_redirect_to_profile_page_after_logging_in(self):
+    #     response = self.client.post(
+    #         reverse('accounts:login'), self.credentials)
+    #     self.assertRedirects(response, '/accounts/profile')
