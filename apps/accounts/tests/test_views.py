@@ -1,7 +1,8 @@
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
+from django.urls import reverse
 from django.urls.base import resolve
 
 from .. import views
@@ -32,8 +33,15 @@ class TestViews(TestCase):
         self.test_user.profile.birth_date = TEST_BIRTH_DATE
         self.test_user.profile.location = TEST_LOCATION
         self.test_user.profile.gender = TEST_GENDER
+        self.test_user.profile.profile_picture = SimpleUploadedFile(
+            name='test_image.jpg',
+            content=b"file_content",
+            content_type='image/jpeg')
         self.test_user.is_active = True
         self.test_user.save()
+
+    def tearDown(self):
+        User.objects.get(username=TEST_USERNAME).delete()
 
     def test_profile_url_resolution(self):
         found = resolve('/accounts/profile')
@@ -51,11 +59,11 @@ class TestViews(TestCase):
         found = resolve('/accounts/signup')
         self.assertEqual(found.func, views.signup)
 
-    # def test_upload_profile_picture_url_resolution(self):
-    #     found = resolve('/accounts/upload-profile-picture')
-    #     self.assertEqual(found.func, views.upload_file)
+    def test_upload_profile_picture_url_resolution(self):
+        found = resolve('/accounts/upload-profile-picture')
+        self.assertEqual(found.func, views.upload_file)
 
-    # def test_redirect_to_profile_page_after_logging_in(self):
-    #     response = self.client.post(
-    #         reverse('accounts:login'), self.credentials)
-    #     self.assertRedirects(response, '/accounts/profile')
+    def test_redirect_to_profile_page_after_logging_in(self):
+        response = self.client.post(
+            reverse('accounts:login'), self.credentials)
+        self.assertRedirects(response, '/accounts/profile')

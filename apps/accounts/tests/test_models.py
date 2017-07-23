@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
 
@@ -26,6 +27,10 @@ class TestProfile(TestCase):
         self.test_user.profile.birth_date = TEST_BIRTH_DATE
         self.test_user.profile.location = TEST_LOCATION
         self.test_user.profile.gender = TEST_GENDER
+        self.test_user.profile.profile_picture = SimpleUploadedFile(
+            name='test_image.jpg',
+            content=b"file_content",
+            content_type='image/jpeg')
         self.test_user.is_active = True
         self.test_user.save()
 
