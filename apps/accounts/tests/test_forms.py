@@ -1,6 +1,7 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
-from ..forms import SignUpForm
+from ..forms import ProfilePictureUploadForm, SignUpForm
 
 
 class TestSignupForm(TestCase):
@@ -21,4 +22,15 @@ class TestSignupForm(TestCase):
     def test_form_with_valid_data(self):
         data = self.valid_data
         form = SignUpForm(data, self.valid_data)
+        self.assertTrue(form.is_valid())
+
+
+class TestProfilePictureUploadForm(TestCase):
+
+    def test_form_with_valid_data(self):
+        picture = SimpleUploadedFile(
+            name='test_image.jpg',
+            content=b"file_content",
+            content_type='image/jpeg')
+        form = ProfilePictureUploadForm(picture)
         self.assertTrue(form.is_valid())

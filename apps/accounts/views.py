@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login
 from django.shortcuts import redirect, render
 
-from .forms import SignUpForm, UploadProfilePictureForm
+from .forms import SignUpForm, ProfilePictureUploadForm
 from .models import Profile
 
 
@@ -41,12 +41,12 @@ def upload_file(request):
         Profile(user=request.user)
 
     if request.method == 'POST':
-        form = UploadProfilePictureForm(
+        form = ProfilePictureUploadForm(
             request.POST, files=request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             return redirect('accounts:profile')
     else:
-        form = UploadProfilePictureForm(instance=profile)
+        form = ProfilePictureUploadForm(instance=profile)
     return render(request, 'accounts/upload_profile_picture.html',
                   {'form': form})

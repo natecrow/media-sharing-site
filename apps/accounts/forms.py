@@ -21,7 +21,7 @@ class SignUpForm(UserCreationForm):
                   'email', 'password1', 'password2',)
 
 
-class UploadProfilePictureForm(forms.ModelForm):
+class ProfilePictureUploadForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['profile_picture']
