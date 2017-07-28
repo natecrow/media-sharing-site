@@ -1,4 +1,3 @@
-from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
@@ -42,22 +41,6 @@ class TestViews(TestCase):
 
     def tearDown(self):
         User.objects.get(username=TEST_USERNAME).delete()
-
-    def test_profile_url_resolution(self):
-        found = resolve('/accounts/profile')
-        self.assertEqual(found.func, views.profile)
-
-    def test_login_url_resolution(self):
-        found = resolve('/accounts/login')
-        self.assertEqual(found.func, auth_views.login)
-
-    def test_logout_url_resolution(self):
-        found = resolve('/accounts/logout')
-        self.assertEqual(found.func, auth_views.logout)
-
-    def test_signup_url_resolution(self):
-        found = resolve('/accounts/signup')
-        self.assertEqual(found.func, views.signup)
 
     def test_upload_profile_picture_url_resolution(self):
         found = resolve('/accounts/upload-profile-picture')
