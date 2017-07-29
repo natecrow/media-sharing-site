@@ -1,0 +1,35 @@
+{% extends '__base.html' %}
+
+{% block title %}Profiles Directory{% endblock %}
+
+{% block content %}
+    <h1>Profiles</h1>
+    <div id="grid">
+        <div id="grid-content">
+            {% if profiles %}
+                {% for profile in profiles %}
+                    <div class="item">
+                        <a href="" target="_blank">
+                            <img src="{{ profile.profile_picture }}" alt="{{ profile }}" height="150" width="150"/>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>There are no profiles to display.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if profiles.has_previous %}
+                <a href="?page={{ profiles.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ profiles.number }} of {{ profiles.paginator.num_pages }}
+            </span>
+            {% if profiles.has_next %}
+                <a href="?page={{ profiles.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
