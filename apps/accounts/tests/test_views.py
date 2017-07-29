@@ -42,10 +42,6 @@ class TestViews(TestCase):
     def tearDown(self):
         User.objects.get(username=TEST_USERNAME).delete()
 
-    def test_upload_profile_picture_url_resolution(self):
-        found = resolve('/accounts/upload-profile-picture')
-        self.assertEqual(found.func, views.upload_file)
-
     def test_redirect_to_profile_page_after_logging_in(self):
         response = self.client.post(
             reverse('accounts:login'), self.credentials)
