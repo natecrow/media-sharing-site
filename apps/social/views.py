@@ -23,5 +23,9 @@ def profiles_directory(request):
     return render(request, 'social/profiles_directory.html', context)
 
 
-def profile_page(request):
-    pass
+def profile_page(request, username):
+    user = User.objects.get(username=username)
+
+    context = {'user': user}
+
+    return render(request, 'social/profile_page.html', context)
