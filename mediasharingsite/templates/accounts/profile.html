@@ -1,10 +1,16 @@
 {% extends '__base.html' %}
 
+{% load thumbnail %}
+
 {% block title %}Your Profile{% endblock %}
 
 {% block content %}
   <h2>{{ user.username }}</h2>
-  <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}'s profile picture" height="150" width="150">
+  {% if user.profile.profile_picture %}
+    {% thumbnail user.profile.profile_picture "150x150" crop="center" as im %}
+      <img src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}"/>
+    {% endthumbnail %}
+  {% endif %}
   <ul>
     <li>Username: {{ user.username }}</li>
     <li>Name: {{ user.first_name }} {{ user.last_name }}</li>

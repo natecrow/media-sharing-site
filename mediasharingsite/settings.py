@@ -29,6 +29,7 @@ SECRET_KEY = '@si*wt%&f3sv9*v+sch$0sun2i%30js+k^ea(4lb=p*%)!9cs3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+THUMBNAIL_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 
@@ -42,8 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # internal apps
     'apps.accounts',
     'apps.social',
+
+    # external apps
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
