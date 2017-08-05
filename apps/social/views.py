@@ -1,24 +1,27 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.models import User
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
-
-from apps.accounts.models import Profile
 
 
 def profiles_directory(request):
-    profile_list = Profile.objects.all()
+    user_list = User.objects.all()
 
-    paginator = Paginator(profile_list, 25)  # Show 25 profiles per page
+    paginator = Paginator(user_list, 20)  # Number of profiles per page
 
     page = request.GET.get('page')
     try:
-        profiles = paginator.page(page)
+        users = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        profiles = paginator.page(1)
+        users = paginator.page(1)
     except EmptyPage:
         # If page is out of range, deliver last page of results.
-        profiles = paginator.page(paginator.num_pages)
+        users = paginator.page(paginator.num_pages)
 
-    context = {'profiles': profiles}
+    context = {'users': users}
 
     return render(request, 'social/profiles_directory.html', context)
+
+
+def profile_page(request):
+    pass
