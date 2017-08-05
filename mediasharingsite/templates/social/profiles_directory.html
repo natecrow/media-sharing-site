@@ -10,12 +10,16 @@
                 {% for user in users %}
                     <div class="item">
                         <a href="" target="_blank">
-                            {% if user.profile.profile_picture %}
-                                <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.profile.first_name }}" height="150" width="150"/>
-                            {% else %}
-                                <img src="" alt="<TODO: put default pic here>" height="150" width="150"/>
+                            {% if not user.is_staff %}
+                                <a href="{% url 'social:profile_page' username=user.username %}">
+                                    {% if user.profile.profile_picture %}
+                                        <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.profile.first_name }}" height="150" width="150"/>
+                                    {% else %}
+                                        <img src="" alt="<TODO: put default pic here>" height="150" width="150"/>
+                                    {% endif %}
+                                    <p>{{ user.username }}</p>
+                                </a>
                             {% endif %}
-                            <p>{{ user.username }}</p>
                         </a>
                     </div>
                 {% endfor %}
