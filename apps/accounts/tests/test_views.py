@@ -1,3 +1,4 @@
+from django.contrib import auth
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
@@ -27,7 +28,11 @@ class TestViews(TestCase):
     def tearDown(self):
         User.objects.get(username=constants.VALID_USERNAME).delete()
 
-    # def test_redirect_to_profile_page_after_logging_in(self):
-    #     response = self.client.post(
-    #         reverse('accounts:login'), self.credentials)
-    #     self.assertRedirects(response, reverse('accounts:profile'))
+    def test_redirect_to_profile_page_after_logging_in(self):
+        response = self.client.post(
+            reverse('accounts:login'), self.credentials)
+
+        user = auth.get_user(self.client)
+        assert user.is_authenticated()
+        self.assertRedirects(response, reverse(
+            'accounts:profile'), fetch_redirect_response=False)
