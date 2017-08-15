@@ -13,7 +13,7 @@
   {% endif %}
   <br><br>
   <ul>
-    <li>Birth Date: {{ user.profile.birth_date }}</li>
+    <li>Birth Date: {{ user.profile.birth_date }} ({{ age }} years old)</li>
     <li>Gender: {{ user.profile.get_gender_display }}</li>
     <li>Location: {{ user.profile.location }}</li>
   </ul>

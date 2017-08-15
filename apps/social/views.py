@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
@@ -25,7 +27,18 @@ def profiles_directory(request):
 
 def profile_page(request, username):
     user = User.objects.get(username=username)
+    age = calculate_age(user.profile.birth_date, date.today())
 
-    context = {'user': user}
+    context = {'user': user, 'age': age}
 
     return render(request, 'social/profile_page.html', context)
+
+
+def calculate_age(from_date, to_date):
+    # interval should range from past to future
+    assert(from_date < to_date)
+
+    # subtract a year if the current month and day
+    # has not reached the birth month and day
+    return to_date.year - from_date.year - \
+        ((to_date.month, to_date.day) < (from_date.month, from_date.day))

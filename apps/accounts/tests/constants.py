@@ -1,12 +1,15 @@
 import tempfile
 
-# test data
-TEST_FIRST_NAME = 'john'
-TEST_LAST_NAME = 'doe'
-TEST_EMAIL = 'johndoe@test.com'
-TEST_USERNAME = 'johndoe'
-TEST_PASSWORD = 'password123'
-TEST_BIRTH_DATE = '1990-01-01'
-TEST_GENDER = 'm'
-TEST_LOCATION = 'testland'
-TEST_PROFILE_PICTURE = tempfile.NamedTemporaryFile().name
+# valid data
+VALID_FIRST_NAME = 'john'
+VALID_LAST_NAME = 'doe'
+VALID_EMAIL = 'johndoe@test.com'
+VALID_USERNAME = 'johndoe'
+VALID_PASSWORD = 'password123'
+VALID_BIRTH_DATE = '1990-01-01'
+VALID_GENDER = 'm'
+VALID_LOCATION = 'testland'
+VALID_PROFILE_PIC = tempfile.NamedTemporaryFile().name
+
+# invalid data
+FUTURE_BIRTH_DATE = '2999-01-01'
