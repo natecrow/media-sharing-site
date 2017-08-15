@@ -34,5 +34,4 @@ class TestViews(TestCase):
 
         user = auth.get_user(self.client)
         assert user.is_authenticated()
-        self.assertRedirects(response, reverse(
-            'accounts:profile'), fetch_redirect_response=False)
+        self.assertRedirects(response, reverse('accounts:profile'))
