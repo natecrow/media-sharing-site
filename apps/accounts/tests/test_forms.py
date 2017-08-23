@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.urls import reverse
 
 from . import constants
 from ..forms import ProfilePictureUploadForm, SignUpForm
@@ -40,5 +41,18 @@ class TestSignupForm(TestCase):
 class TestProfilePictureUploadForm(TestCase):
 
     def test_form_with_valid_data(self):
-        form = ProfilePictureUploadForm(constants.VALID_PROFILE_PIC)
-        self.assertTrue(form.is_valid())
+        response = self.client.post(
+            reverse('accounts:upload'),
+            {'image': constants.VALID_PROFILE_PIC})
+
+        self.assertEqual(302, response.status_code)
+
+    def test_form_with_wrong_filetype(self):
+        response = self.client.post(
+            reverse('accounts:upload'),
+            {'image': constants.PROFILE_PIC_WRONG_FILETYPE})
+
+        self.assertEqual(200, response.status_code)
+        error_message = 'Upload a valid image. The file you uploaded was \
+                        either not an image or a corrupted image.'
+        self.assertFormError(response, 'form', 'image', error_message)
