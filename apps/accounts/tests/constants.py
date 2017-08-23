@@ -1,8 +1,5 @@
-import os
-
-from django.core.files.uploadedfile import (InMemoryUploadedFile,
-                                            SimpleUploadedFile)
-from django.utils.six import BytesIO, StringIO
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.utils.six import BytesIO
 from PIL import Image
 
 
@@ -11,16 +8,6 @@ def create_image(size=(800, 600), image_mode='RGB', image_format='JPEG'):
     Image.new(image_mode, size).save(data, image_format)
     data.seek(0)
     return data
-
-
-def create_temp_text_file():
-    io = StringIO()
-    io.write('foo')
-    io.seek(0, os.SEEK_END)
-    text_file = InMemoryUploadedFile(
-        io, None, 'foo.txt', 'text', io.tell(), None)
-    text_file.seek(0)
-    return text_file
 
 
 # valid data
@@ -37,4 +24,3 @@ VALID_PROFILE_PIC = SimpleUploadedFile(
 
 # invalid data
 FUTURE_BIRTH_DATE = '2999-01-01'
-PROFILE_PIC_WRONG_FILETYPE = create_temp_text_file()

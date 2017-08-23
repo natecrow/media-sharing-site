@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from . import constants
-from ..forms import ProfilePictureUploadForm, SignUpForm
+from ..forms import SignUpForm
 
 
 class TestSignupForm(TestCase):
@@ -46,13 +46,3 @@ class TestProfilePictureUploadForm(TestCase):
             {'image': constants.VALID_PROFILE_PIC})
 
         self.assertEqual(302, response.status_code)
-
-    def test_form_with_wrong_filetype(self):
-        response = self.client.post(
-            reverse('accounts:upload'),
-            {'image': constants.PROFILE_PIC_WRONG_FILETYPE})
-
-        self.assertEqual(200, response.status_code)
-        error_message = 'Upload a valid image. The file you uploaded was \
-                        either not an image or a corrupted image.'
-        self.assertFormError(response, 'form', 'image', error_message)
