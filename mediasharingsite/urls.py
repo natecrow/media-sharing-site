@@ -28,6 +28,7 @@ urlpatterns = [
 
     url(r'^accounts/', include('apps.accounts.urls')),
     url(r'^profiles/', include('apps.social.urls')),
+    url(r'^imageshare/', include('apps.imageshare.urls')),
 ]
 
 if settings.DEBUG:
