@@ -30,6 +30,17 @@ class Profile(models.Model):
         return str(self.user)
 
 
+@receiver(models.signals.post_delete, sender=Profile)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    """
+    Deletes profile picture from filesystem
+    when corresponding `Profile` object is deleted.
+    """
+    if instance.profile_picture:
+        if os.path.isfile(instance.profile_picture.path):
+            os.remove(instance.profile_picture.path)
+
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     """
