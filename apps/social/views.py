@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
 
+from ..imageshare.models import Image
+
 
 def profiles_directory(request):
     user_list = User.objects.all()
@@ -28,8 +30,21 @@ def profiles_directory(request):
 def profile_page(request, username):
     user = User.objects.get(username=username)
     age = calculate_age(user.profile.birth_date, date.today())
+    picture_list = Image.objects.filter(user=user)
 
-    context = {'user': user, 'age': age}
+    paginator = Paginator(picture_list, 1)  # Number of pictures per page
+
+    page = request.GET.get('page')
+    try:
+        pictures = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        pictures = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range, deliver last page of results.
+        pictures = paginator.page(paginator.num_pages)
+
+    context = {'user': user, 'age': age, 'pictures': pictures}
 
     return render(request, 'social/profile_page.html', context)
 

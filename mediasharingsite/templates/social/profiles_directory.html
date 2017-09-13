@@ -5,31 +5,31 @@
 {% block title %}Profiles Directory{% endblock %}
 
 {% block content %}
-  <h1>Profiles</h1>
-  <div id="grid">
-    <div id="grid-content">
-      {% if users %}
-        {% for user in users %}
-          <div class="item">
-            <a href="" target="_blank">
-              {% if not user.is_staff %}
-                <a href="{% url 'social:profile_page' username=user.username %}">
-                  {% if user.profile.profile_picture %}
-                    {% thumbnail user.profile.profile_picture "150x150" crop="center" as im %}
-                      <img src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}"/>
-                    {% endthumbnail %}
-                  {% else %}
-                     <img src="" alt="<TODO: put default pic here>" height="150" width="150"/>
-                  {% endif %}
-                  <p>{{ user.username }}</p>
-                </a>
-              {% endif %}
-            </a>
-          </div>
-        {% endfor %}
-      {% else %}
-        <p>There are no profiles to display.</p>
-      {% endif %}
+<h1>Profiles</h1>
+<div id="grid">
+  <div id="grid-content">
+    {% if users %}
+      {% for user in users %}
+        <div class="item">
+          <a href="" target="_blank">
+            {% if not user.is_staff %}
+              <a href="{% url 'social:profile_page' username=user.username %}">
+                {% if user.profile.profile_picture %}
+                  {% thumbnail user.profile.profile_picture "150x150" crop="center" as im %}
+                    <img src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}"/>
+                  {% endthumbnail %}
+                {% else %}
+                    <img src="" alt="<TODO: put default pic here>" height="150" width="150"/>
+                {% endif %}
+                <p>{{ user.username }}</p>
+              </a>
+            {% endif %}
+          </a>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>There are no profiles to display.</p>
+    {% endif %}
   </div>
 </div>
 <div class="pagination">

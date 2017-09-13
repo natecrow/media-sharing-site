@@ -17,4 +17,8 @@
     <li>Gender: {{ user.profile.get_gender_display }}</li>
     <li>Location: {{ user.profile.location }}</li>
   </ul>
+  <div>
+    <h2>Pictures</h2>
+    {% include "social/_gallery_pictures.html" with pictures=pictures %}
+  </div>
 {% endblock %}
