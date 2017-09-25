@@ -13,7 +13,7 @@
         <div class="item">
           <a href="" target="_blank">
             {% if not user.is_staff %}
-              <a href="{% url 'social:profile_page' username=user.username %}">
+              <a href="{% url 'accounts:profile_page' username=user.username %}">
                 {% if user.profile.profile_picture %}
                   {% thumbnail user.profile.profile_picture "150x150" crop="center" as im %}
                     <img src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}"/>
