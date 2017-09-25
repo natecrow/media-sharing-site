@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 
     # internal apps
     'apps.accounts',
-    'apps.social',
+    'apps.directory',
     'apps.imageshare',
 
     # external apps

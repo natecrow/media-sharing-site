@@ -20,4 +20,4 @@ def profiles_directory(request):
 
     context = {'users': users}
 
-    return render(request, 'social/profiles_directory.html', context)
+    return render(request, 'directory/profiles_directory.html', context)
