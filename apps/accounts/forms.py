@@ -26,8 +26,21 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name',
-                  'email', 'password1', 'password2',)
+        fields = ['email', 'username', 'password1',
+                  'password2', 'first_name', 'last_name']
+
+
+class EditProfileForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30, required=False)
+    email = forms.EmailField(max_length=254, required=False)
+    location = forms.CharField(max_length=30, required=False)
+    gender = forms.ChoiceField(
+        choices=[(s.value, s.name) for s in Profile.Genders], required=False)
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'location', 'gender']
 
 
 class ProfilePictureUploadForm(forms.ModelForm):

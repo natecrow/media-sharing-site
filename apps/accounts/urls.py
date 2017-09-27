@@ -14,6 +14,8 @@ urlpatterns = [
 
     url(r'^users/(?P<username>[a-zA-Z0-9]+)$',
         views.profile_page, name='profile_page'),
-    url(r'^profile$', views.profile, name='profile'),
-    url(r'^upload-profile-picture$', views.upload_file, name='upload'),
+    url(r'^profile-redirect/$', views.profile_redirect, name='profile_redirect'),
+    url(r'^edit-profile$', views.edit_profile, name='edit_profile'),
+    url(r'^upload-profile-picture$', views.change_profile_picture,
+        name='change_profile_picture'),
 ]

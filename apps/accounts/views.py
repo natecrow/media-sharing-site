@@ -6,15 +6,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import login
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from ..imageshare.models import Image
-from .forms import ProfilePictureUploadForm, SignUpForm
+from .forms import ProfilePictureUploadForm, SignUpForm, EditProfileForm
 from .models import Profile
-
-
-@login_required(login_url='accounts:login')
-def profile(request):
-    return render(request, 'accounts/profile.html')
 
 
 def signup(request):
@@ -31,15 +27,47 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('accounts:profile')
+            return redirect(reverse(
+                'accounts:profile_page',
+                kwargs={'username': request.user.username})
+            )
     else:
         form = SignUpForm()
     return render(request, 'accounts/signup.html', {'form': form})
 
 
 @login_required(login_url='accounts:login')
-def upload_file(request):
+def edit_profile(request):
+    user = request.user
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST)
+        if form.is_valid():
+            user.first_name = form.cleaned_data.get('first_name')
+            user.last_name = form.cleaned_data.get('last_name')
+            user.email = form.cleaned_data.get('email')
+            user.profile.location = form.cleaned_data.get('location')
+            user.profile.gender = form.cleaned_data.get('gender')
+            user.save()
+            return redirect(reverse(
+                'accounts:profile_page',
+                kwargs={'username': request.user.username})
+            )
+    else:
+        form = EditProfileForm(
+            instance=user,
+            initial={
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email,
+                'location': user.profile.location,
+                'gender': user.profile.gender
+            }
+        )
+    return render(request, 'accounts/edit_profile.html', {'form': form})
 
+
+@login_required(login_url='accounts:login')
+def change_profile_picture(request):
     try:
         profile = request.user.profile
     except Profile.DoesNotExist:
@@ -50,17 +78,30 @@ def upload_file(request):
             request.POST, files=request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('accounts:profile')
+            return redirect(reverse(
+                'accounts:profile_page',
+                kwargs={'username': request.user.username})
+            )
     else:
         form = ProfilePictureUploadForm(instance=profile)
     return render(request, 'accounts/upload_profile_picture.html',
                   {'form': form})
 
 
+def profile_redirect(request):
+    """
+    Used for redirecting to a user's profile page when coming from a static url
+    (such as the LOGIN_REDIRECT_URL)
+    """
+    return redirect(reverse(
+        'accounts:profile_page',
+        kwargs={'username': request.user.username}))
+
+
 def profile_page(request, username):
     user = User.objects.get(username=username)
     age = calculate_age(user.profile.birth_date, date.today())
-    picture_list = Image.objects.filter(user=user)
+    picture_list = Image.objects.filter(user=user).order_by('image')
 
     paginator = Paginator(picture_list, 1)  # Number of pictures per page
 

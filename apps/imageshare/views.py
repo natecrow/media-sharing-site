@@ -14,7 +14,7 @@ logger = logging.getLogger('uploads')
 class ImageUploadView(FormView):
     form_class = ImageUploadForm
     template_name = 'imageshare/upload_images.html'
-    success_url = reverse_lazy('accounts:profile')
+    success_url = reverse_lazy('accounts:edit_profile')
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()

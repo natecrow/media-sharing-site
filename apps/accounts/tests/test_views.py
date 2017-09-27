@@ -33,11 +33,13 @@ class TestViews(TestCase):
 
     def test_redirect_to_profile_page_after_logging_in(self):
         response = self.client.post(
-            reverse('accounts:login'), self.credentials)
+            reverse('accounts:login'), self.credentials, follow=True)
 
         user = auth.get_user(self.client)
         assert user.is_authenticated()
-        self.assertRedirects(response, reverse('accounts:profile'))
+        last_url = response.request['PATH_INFO']
+        expected_last_url = '/accounts/users/' + constants.VALID_USERNAME
+        self.assertEqual(last_url, expected_last_url)
 
 
 class TestAgeCalculation(TestCase):

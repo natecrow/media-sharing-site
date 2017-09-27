@@ -18,7 +18,7 @@ from django.conf.global_settings import MEDIA_URL, MEDIA_ROOT
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.path.join(BASE_DIR, 'mediasharingsite').replace('\\', '/')
 
-LOGIN_REDIRECT_URL = 'accounts:profile'
+LOGIN_REDIRECT_URL = 'accounts:profile_redirect'
 
 
 # Quick-start development settings - unsuitable for production
