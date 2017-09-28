@@ -101,9 +101,9 @@ def profile_redirect(request):
 def profile_page(request, username):
     user = User.objects.get(username=username)
     age = calculate_age(user.profile.birth_date, date.today())
-    picture_list = Image.objects.filter(user=user).order_by('image')
+    picture_list = Image.objects.filter(user=user).order_by('uploaded_date')
 
-    paginator = Paginator(picture_list, 1)  # Number of pictures per page
+    paginator = Paginator(picture_list, 5)  # Number of pictures per page
 
     page = request.GET.get('page')
     try:

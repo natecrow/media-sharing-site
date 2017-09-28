@@ -11,6 +11,8 @@ def get_image_path(instance, filename):
 class MediaFile(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='images')
+    uploaded_date = models.DateTimeField(
+        null=False, blank=False, auto_now_add=True)
 
     class Meta:
         abstract = True
