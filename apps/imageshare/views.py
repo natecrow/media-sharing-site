@@ -1,6 +1,8 @@
 import logging
 
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 
@@ -30,3 +32,23 @@ class ImageUploadView(FormView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+def images(request):
+    picture_list = Image.objects.all().order_by('uploaded_date')
+
+    paginator = Paginator(picture_list, 20)  # Number of pictures per page
+
+    page = request.GET.get('page')
+    try:
+        pictures = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        pictures = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range, deliver last page of results.
+        pictures = paginator.page(paginator.num_pages)
+
+    context = {'pictures': pictures}
+
+    return render(request, 'imageshare/images.html', context)

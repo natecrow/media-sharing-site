@@ -1,0 +1,16 @@
+div#grid div.item {
+    width: 160px;
+    height: 160px;
+    float: left;
+    padding: 5px;
+    margin: 5px;
+    background-color: lightgray;
+}
+
+div.pagination {
+    background-color: lightgray;
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 10px;
+    width: 100%;
+}

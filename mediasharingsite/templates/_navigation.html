@@ -15,6 +15,7 @@
             {% if request.user.is_authenticated %}
               <li><a href="{% url 'directory:profiles_directory' %}">Directory</a></li>
             {% endif %}
+            <li><a href="{% url 'imageshare:images' %}">Images</a></li>
           </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated %}

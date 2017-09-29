@@ -1,0 +1,10 @@
+{% extends '__base.html' %}
+
+{% block title %}Images{% endblock %}
+
+{% block content %}
+
+  <h1>Images</h1>
+  {% include "imageshare/_gallery_pictures.html" with pictures=pictures %}
+
+{% endblock %}
