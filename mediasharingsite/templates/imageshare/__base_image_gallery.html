@@ -10,6 +10,7 @@
               <img src="{{ pic.image.url }}" height="{{ im.height }}" width="{{ im.width }}" />
             {% endthumbnail %}
           </a>
+          {% block image_info_below %}{% endblock %}
         </div>
       {% endfor %}
     {% else %}

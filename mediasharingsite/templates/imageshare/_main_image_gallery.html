@@ -1,0 +1,9 @@
+{% extends "imageshare/__base_image_gallery.html" %}
+
+{% block image_info_below %}
+  <p>Uploader:
+    <a href="{% url 'accounts:profile_page' username=pic.user.username %}">
+      {{ pic.user.username }}
+    </a>
+  </p>
+{% endblock %}
