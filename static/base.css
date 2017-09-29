@@ -4,13 +4,19 @@ div#grid div.item {
     float: left;
     padding: 5px;
     margin: 5px;
+    background-color: lightslategray;
+}
+
+div#grid div.item p {
     background-color: lightgray;
+    padding: 0 10px 0 10px;
+    margin: 0 -5px 0 -5px;
 }
 
 div.pagination {
     background-color: lightgray;
     display: inline-block;
     text-align: center;
-    margin-bottom: 10px;
+    margin-top: 20px;
     width: 100%;
 }

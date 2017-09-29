@@ -1,10 +1,44 @@
 {% extends '__base.html' %}
 
+{% load thumbnail %}
+
 {% block title %}Images{% endblock %}
 
 {% block content %}
-
   <h1>Images</h1>
-  {% include "imageshare/_gallery_pictures.html" with pictures=pictures %}
-
+  <div id="grid">
+    <div id="grid-content">
+      {% if pictures %}
+        {% for pic in pictures %}
+          <div class="item">
+            <a href="{{ pic.image.url }}" target="_blank">
+              {% thumbnail pic "150x150" crop="center" as im %}
+                <img src="{{ pic.image.url }}" height="{{ im.height }}" width="{{ im.width }}" />
+              {% endthumbnail %}
+            </a>
+            <p>Uploader:
+              <a href="{% url 'accounts:profile_page' username=pic.user.username %}">
+                {{ pic.user.username }}
+              </a>
+            </p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>There are no images to display.</p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="pagination">
+    <span class="step-links">
+      {% if pictures.has_previous %}
+        <a href="?page={{ pictures.previous_page_number }}">previous</a>
+      {% endif %}
+      <span class="current">
+        Page {{ pictures.number }} of {{ pictures.paginator.num_pages }}
+      </span>
+      {% if pictures.has_next %}
+        <a href="?page={{ pictures.next_page_number }}">next</a>
+      {% endif %}
+    </span>
+  </div>
 {% endblock %}
