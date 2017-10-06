@@ -42,7 +42,7 @@ class TestProfilePictureUploadForm(TestCase):
 
     def test_form_with_valid_data(self):
         response = self.client.post(
-            reverse('accounts:upload'),
+            reverse('accounts:change_profile_picture'),
             {'image': constants.VALID_PROFILE_PIC})
 
         self.assertEqual(302, response.status_code)
