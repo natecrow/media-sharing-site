@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     # external apps
     'sorl.thumbnail',
+    'tagulous',
 ]
 
 MIDDLEWARE = [
