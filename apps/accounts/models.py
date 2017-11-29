@@ -18,13 +18,12 @@ class Profile(models.Model):
     location = models.CharField(max_length=30, blank=True)
     profile_picture = models.ImageField(
         upload_to=get_image_path, blank=True, null=True)
-
-    class Genders(Enum):
-        unspecified = '-'
-        male = 'm'
-        female = 'f'
-    gender = models.CharField(max_length=1, choices=[(
-        s.value, s.name) for s in Genders], blank=True)
+    GENDERS = [
+        ('-', ''),
+        ('m', 'male'),
+        ('f', 'female')
+    ]
+    gender = models.CharField(max_length=1, choices=GENDERS, blank=True)
 
     def __str__(self):
         return str(self.user)

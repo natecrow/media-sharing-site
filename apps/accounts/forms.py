@@ -13,8 +13,7 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required.')
     birth_date = forms.DateField(widget=forms.widgets.DateInput(
         attrs={'type': 'date'}), required=False)
-    gender = forms.ChoiceField(
-        choices=[(s.value, s.name) for s in Profile.Genders], required=False)
+    gender = forms.ChoiceField(choices=Profile.GENDERS, required=False)
     location = forms.CharField(max_length=30, required=False)
 
     def clean(self):
@@ -35,8 +34,7 @@ class EditProfileForm(forms.ModelForm):
     last_name = forms.CharField(max_length=30, required=False)
     email = forms.EmailField(max_length=254, required=False)
     location = forms.CharField(max_length=30, required=False)
-    gender = forms.ChoiceField(
-        choices=[(s.value, s.name) for s in Profile.Genders], required=False)
+    gender = forms.ChoiceField(choices=Profile.GENDERS, required=False)
 
     class Meta:
         model = User
