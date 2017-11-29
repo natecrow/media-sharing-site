@@ -16,7 +16,9 @@
     <li>Name: {{ user.first_name }} {{ user.last_name }}</li>
     <li>Gender: {{ user.profile.get_gender_display }}</li>
     <li>Location: {{ user.profile.location }}</li>
-    <li>Birth Date: {{ user.profile.birth_date }} ({{age}} years old)</li>
+    {% if user.profile.birth_date %}
+      <li>Birth Date: {{ user.profile.birth_date }} ({{age}} years old)</li>
+    {% endif %}
   </ul>
   <div>
     <h3>Pictures</h3>
