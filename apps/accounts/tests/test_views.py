@@ -38,7 +38,8 @@ class TestViews(TestCase):
         user = auth.get_user(self.client)
         assert user.is_authenticated()
         last_url = response.request['PATH_INFO']
-        expected_last_url = '/accounts/users/' + constants.VALID_USERNAME
+        expected_last_url = reverse('accounts:profile_page',
+                                    kwargs={'username': constants.VALID_USERNAME})
         self.assertEqual(last_url, expected_last_url)
 
 
