@@ -28,7 +28,7 @@ class ImageUploadView(FormView):
                     'Creating model for image: \"' + f.name + '\"')
                 image = Image(image=f, user=request.user)
                 image.save()
-                logger.info('Saved mage \"' + f.name + '\"')
+                logger.info('Saved image \"' + f.name + '\"')
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
@@ -49,6 +49,15 @@ def images(request):
         # If page is out of range, deliver last page of results.
         pictures = paginator.page(paginator.num_pages)
 
-    context = {'pictures': pictures}
+    # get list of tags from all images
+    tags = []
+    for picture in picture_list:
+        for tag in picture.tags.all():
+            if tag not in tags:
+                tags.append(tag)
+    # sort tags alphabetically
+    tags.sort(key=lambda x: x.name)
+
+    context = {'pictures': pictures, 'tags': tags}
 
     return render(request, 'imageshare/images.html', context)

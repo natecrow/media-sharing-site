@@ -1,0 +1,14 @@
+<div>
+  <h3>Tags</h3>
+  {% if tags %}
+    <ul>
+      {% for tag in tags %}
+        <li>
+          <a href="">
+            {{tag}}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
