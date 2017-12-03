@@ -27,6 +27,7 @@ class ImageUploadView(FormView):
                 logger.info(
                     'Creating model for image: \"' + f.name + '\"')
                 image = Image(image=f, user=request.user)
+                image.tags = form.cleaned_data['tags']
                 image.save()
                 logger.info('Saved image \"' + f.name + '\"')
             return self.form_valid(form)
