@@ -21,13 +21,21 @@
 <div class="pagination">
   <span class="step-links">
     {% if pictures.has_previous %}
-      <a href="?page={{ pictures.previous_page_number }}&tags={{ selected_tags }}">previous</a>
+      {% if selected_tags %}
+        <a href="?page={{ pictures.previous_page_number }}&tags={{ selected_tags }}">previous</a>
+      {% else %}
+        <a href="?page={{ pictures.previous_page_number }}">previous</a>
+      {% endif %}
     {% endif %}
     <span class="current">
       Page {{ pictures.number }} of {{ pictures.paginator.num_pages }}
     </span>
     {% if pictures.has_next %}
-      <a href="?page={{ pictures.next_page_number }}&tags={{ selected_tags }}">next</a>
+      {% if selected_tags %}
+        <a href="?page={{ pictures.next_page_number }}&tags={{ selected_tags }}">next</a>
+      {% else %}
+        <a href="?page={{ pictures.next_page_number }}">next</a>
+      {% endif %}
     {% endif %}
   </span>
 </div>

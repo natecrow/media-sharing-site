@@ -46,11 +46,6 @@ def images(request):
             selected_tags_list.append(selected_tags)
         print('tags converted to list: ' + selected_tags)
 
-    # if selected tags has 'None', then remove 'None'
-    # so that 'None' will not be read as a tag when filtering
-    if selected_tags_list and 'None' in selected_tags_list:
-        selected_tags_list.remove('None')
-
     # filter images by any given tags, otherwise show all images
     if selected_tags_list:
         picture_list = Image.objects.filter(
