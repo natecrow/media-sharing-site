@@ -1,20 +1,21 @@
 <div>
   <h3>Tags</h3>
+  <p>
+    (<a href="{% url 'imageshare:images' %}?page=1">clear all</a>)
+  </p>
   {% if tags %}
-    <ul>
+    <p>
       {% for tag in tags %}
-        <li>
-          {% if selected_tags %}
-            <a href="{% url 'imageshare:images' %}?page=1&tags={{ selected_tags }}+{{ tag }}">
-              {{tag}}
-            </a>
-          {% else %}
-            <a href="{% url 'imageshare:images' %}?page=1&tags={{ tag }}">
-              {{tag}}
-            </a>
-          {% endif %}
-        </li>
+        {% if selected_tags %}
+          <a href="{% url 'imageshare:images' %}?page=1&tags={{ selected_tags }}+{{ tag }}">
+            {{tag}}
+          </a>
+        {% else %}
+          <a href="{% url 'imageshare:images' %}?page=1&tags={{ tag }}">
+            {{tag}}
+          </a>
+        {% endif %}
       {% endfor %}
-    </ul>
+    </p>
   {% endif %}
 </div>
