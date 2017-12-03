@@ -68,7 +68,7 @@ def images(request):
     tags = []
     for picture in Image.objects.all():
         for tag in picture.tags.all():
-            if tag not in tags:
+            if tag not in tags and tag not in selected_tags_list:
                 tags.append(tag)
     # sort tags alphabetically
     tags.sort(key=lambda x: x.name)
@@ -86,6 +86,7 @@ def images(request):
         pictures = paginator.page(paginator.num_pages)
 
     context = {'pictures': pictures, 'page': page,
-               'tags': tags, 'selected_tags': selected_tags_for_url_parameter}
+               'tags': tags, 'selected_tags': selected_tags_list,
+               'selected_tags_for_url_parameter': selected_tags_for_url_parameter}
 
     return render(request, 'imageshare/images.html', context)
