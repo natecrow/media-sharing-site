@@ -4,9 +4,15 @@
     <ul>
       {% for tag in tags %}
         <li>
-          <a href="">
-            {{tag}}
-          </a>
+          {% if selected_tags %}
+            <a href="{% url 'imageshare:images' %}?page=1&tags={{ selected_tags }}+{{ tag }}">
+              {{tag}}
+            </a>
+          {% else %}
+            <a href="{% url 'imageshare:images' %}?page=1&tags={{ tag }}">
+              {{tag}}
+            </a>
+          {% endif %}
         </li>
       {% endfor %}
     </ul>

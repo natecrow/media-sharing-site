@@ -35,7 +35,48 @@ class ImageUploadView(FormView):
 
 
 def images(request):
-    picture_list = Image.objects.all().order_by('uploaded_date')
+    # store tags in a list if any are selected
+    selected_tags = request.GET.get('tags')
+    selected_tags_list = []
+    if selected_tags:
+        print('tags in raw format read from url: ' + selected_tags)
+        if ' ' in selected_tags:
+            selected_tags_list = selected_tags.split(' ')
+        else:
+            selected_tags_list.append(selected_tags)
+        print('tags converted to list: ' + selected_tags)
+
+    # if selected tags has 'None', then remove 'None'
+    # so that 'None' will not be read as a tag when filtering
+    if selected_tags_list and 'None' in selected_tags_list:
+        selected_tags_list.remove('None')
+
+    # filter images by any given tags, otherwise show all images
+    if selected_tags_list:
+        picture_list = Image.objects.filter(
+            tags=','.join(selected_tags_list)).order_by('uploaded_date')
+    else:
+        picture_list = Image.objects.all().order_by('uploaded_date')
+
+    # put selected tags in a url parameter list format
+    selected_tags_for_url_parameter = ''
+    first_tag = True
+    for tag in selected_tags_list:
+        if first_tag:
+            selected_tags_for_url_parameter += tag
+            first_tag = False
+        else:
+            selected_tags_for_url_parameter += '+' + tag
+    print('tags in url list format: ' + selected_tags_for_url_parameter)
+
+    # get list of tags from all images
+    tags = []
+    for picture in Image.objects.all():
+        for tag in picture.tags.all():
+            if tag not in tags:
+                tags.append(tag)
+    # sort tags alphabetically
+    tags.sort(key=lambda x: x.name)
 
     paginator = Paginator(picture_list, 20)  # Number of pictures per page
 
@@ -49,15 +90,7 @@ def images(request):
         # If page is out of range, deliver last page of results.
         pictures = paginator.page(paginator.num_pages)
 
-    # get list of tags from all images
-    tags = []
-    for picture in picture_list:
-        for tag in picture.tags.all():
-            if tag not in tags:
-                tags.append(tag)
-    # sort tags alphabetically
-    tags.sort(key=lambda x: x.name)
-
-    context = {'pictures': pictures, 'tags': tags}
+    context = {'pictures': pictures, 'page': page,
+               'tags': tags, 'selected_tags': selected_tags_for_url_parameter}
 
     return render(request, 'imageshare/images.html', context)

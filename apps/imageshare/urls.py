@@ -7,5 +7,5 @@ app_name = 'imageshare'
 urlpatterns = [
     url(r'^upload-images$',
         views.ImageUploadView.as_view(), name='upload_images'),
-    url(r'^Images$', views.images, name='images')
+    url(r'^images$', views.images, name='images'),
 ]
