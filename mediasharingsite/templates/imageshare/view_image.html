@@ -1,0 +1,15 @@
+{% extends '__base.html' %}
+
+{% block title %}{{ picture_basename }}{% endblock %}
+
+{% block content %}
+  <h1>{{ picture_basename }}</h1>
+  <p>Uploader:
+      <a href="{% url 'accounts:profile_page' username=picture.user.username %}">
+        {{ picture.user.username }}
+      </a>
+    </p>
+  <p>Upload date: {{ picture_upload_date }}</p>
+  <p>Tags: {{ picture.tags }}</p>
+  <img class="fit" src="{{ picture.image.url }}" alt="{{ picture.image.name }}" />
+{% endblock %}

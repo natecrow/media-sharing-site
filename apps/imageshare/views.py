@@ -1,4 +1,5 @@
 import logging
+import os
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -91,3 +92,15 @@ def images(request):
                'selected_tags_for_url_parameter': selected_tags_for_url_parameter}
 
     return render(request, 'imageshare/images.html', context)
+
+
+def view_image(request, image_id):
+    picture = Image.objects.get(id=image_id)
+
+    picture_basename = os.path.basename(picture.image.name)
+    picture_upload_date = picture.uploaded_date.date()
+
+    context = {'picture': picture, 'picture_basename': picture_basename,
+               'picture_upload_date': picture_upload_date}
+
+    return render(request, 'imageshare/view_image.html', context)

@@ -20,3 +20,11 @@ div.pagination {
     margin-top: 20px;
     width: 100%;
 }
+
+.fit {
+    padding-bottom: 5rem;
+    display: block;
+    margin: 0 auto;
+    max-height: 100%;
+    max-width: 100%;
+}
