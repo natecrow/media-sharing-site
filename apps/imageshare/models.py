@@ -9,10 +9,9 @@ def get_image_path(instance, filename):
     return os.path.join('user', str(instance.user.id), filename)
 
 
+# Workaround to prevent naming error from tagulous
 class ImageTag(tagulous_models.TagModel):
-    class TagMeta:
-        force_lowercase = True
-        # autocomplete_view = 'tags_autocomplete'
+    pass
 
 
 class MediaFile(models.Model):

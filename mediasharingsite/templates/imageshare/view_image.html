@@ -3,13 +3,26 @@
 {% block title %}{{ picture_basename }}{% endblock %}
 
 {% block content %}
-  <h1>{{ picture_basename }}</h1>
-  <p>Uploader:
-      <a href="{% url 'accounts:profile_page' username=picture.user.username %}">
-        {{ picture.user.username }}
-      </a>
+  <p>
+    <label>Uploader:</label>
+    <a href="{% url 'accounts:profile_page' username=picture.user.username %}">
+      {{ picture.user.username }}
+    </a>
+  </p>
+  <p>
+    <label>Upload date:</label>
+    {{ picture_upload_date }}
+  </p>
+  {% if request.user.is_authenticated and picture.user == request.user %}
+    <p>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit tag edits</button>
+      </form>
     </p>
-  <p>Upload date: {{ picture_upload_date }}</p>
-  <p>Tags: {{ picture.tags }}</p>
+  {% else %}
+    <p>Tags: {{ picture.tags }}</p>
+  {% endif %}
   <img class="fit" src="{{ picture.image.url }}" alt="{{ picture.image.name }}" />
 {% endblock %}

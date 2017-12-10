@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 
-from .forms import ImageUploadForm
+from .forms import ImageUploadForm, TagForm
 from .models import Image
 
 logger = logging.getLogger('uploads')
@@ -96,11 +96,15 @@ def images(request):
 
 def view_image(request, image_id):
     picture = Image.objects.get(id=image_id)
+    form = TagForm(request.POST or None, instance=picture)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
 
     picture_basename = os.path.basename(picture.image.name)
     picture_upload_date = picture.uploaded_date.date()
 
-    context = {'picture': picture, 'picture_basename': picture_basename,
+    context = {'picture': picture, 'form': form, 'picture_basename': picture_basename,
                'picture_upload_date': picture_upload_date}
 
     return render(request, 'imageshare/view_image.html', context)
