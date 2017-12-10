@@ -4,7 +4,7 @@ import os
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse
 from django.views.generic.edit import FormView
 
 from .forms import ImageUploadForm, TagForm
@@ -17,7 +17,6 @@ logger = logging.getLogger('uploads')
 class ImageUploadView(FormView):
     form_class = ImageUploadForm
     template_name = 'imageshare/upload_images.html'
-    success_url = reverse_lazy('accounts:edit_profile')
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -34,6 +33,10 @@ class ImageUploadView(FormView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+    def get_success_url(self):
+        username = self.request.user.username
+        return reverse('accounts:profile_page', kwargs={'username': username})
 
 
 def images(request):
