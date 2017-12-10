@@ -12,14 +12,12 @@
     {% endthumbnail %}
   {% endif %}
   <br><br>
-  <ul>
-    <li>Name: {{ user.first_name }} {{ user.last_name }}</li>
-    <li>Gender: {{ user.profile.get_gender_display }}</li>
-    <li>Location: {{ user.profile.location }}</li>
+    <p><label>Name:</label> {{ user.first_name }} {{ user.last_name }}</p>
+    <p><label>Gender:</label> {{ user.profile.get_gender_display }}</p>
+    <p><label>Location:</label> {{ user.profile.location }}</p>
     {% if user.profile.birth_date %}
-      <li>Birth Date: {{ user.profile.birth_date }} ({{age}} years old)</li>
+      <p><label>Birth Date:</label> {{ user.profile.birth_date }} ({{age}} years old)</p>
     {% endif %}
-  </ul>
   <div>
     <h3>Uploaded Images</h3>
     {% include "imageshare/__base_image_gallery.html" with pictures=pictures %}

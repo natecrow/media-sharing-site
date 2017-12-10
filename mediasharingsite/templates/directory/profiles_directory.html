@@ -10,22 +10,22 @@
   <div id="grid-content">
     {% if users %}
       {% for user in users %}
-        <div class="item">
-          <a href="" target="_blank">
-            {% if not user.is_staff %}
-              <a href="{% url 'accounts:profile_page' username=user.username %}">
-                {% if user.profile.profile_picture %}
-                  {% thumbnail user.profile.profile_picture "150x150" crop="center" as im %}
-                    <img src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}"/>
-                  {% endthumbnail %}
-                {% else %}
-                    <img src="" alt="<TODO: put default pic here>" height="150" width="150"/>
-                {% endif %}
-                <p>{{ user.username }}</p>
-              </a>
-            {% endif %}
-          </a>
-        </div>
+        {% if not user.is_staff %}
+          <div class="item"></div>
+            <a href="{% url 'accounts:profile_page' username=user.username %}">
+              {% if user.profile.profile_picture %}
+                {% thumbnail user.profile.profile_picture "150x150" crop="center" as im %}
+                  <img src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}"/>
+                {% endthumbnail %}
+              {% else %}
+                  <img src="" alt="<TODO: put default pic here>" height="150" width="150"/>
+              {% endif %}
+              <p>{{ user.username }}</p>
+            </a>
+          </div>
+        {% else %}
+          <p>There are no profiles to display.</p>
+        {% endif %}
       {% endfor %}
     {% else %}
       <p>There are no profiles to display.</p>
