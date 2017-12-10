@@ -2,6 +2,7 @@ import os
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.dispatch import receiver
 from tagulous import models as tagulous_models
 
 
@@ -30,3 +31,14 @@ class Image(MediaFile):
 
     def __str__(self):
         return str(self.image.name)
+
+
+@receiver(models.signals.post_delete, sender=Image)
+def auto_delete_image_on_delete(sender, instance, **kwargs):
+    """
+    Deletes image file from filesystem
+    when corresponding `Image` object is deleted.
+    """
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
