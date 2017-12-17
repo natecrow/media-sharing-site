@@ -42,62 +42,38 @@ class ImageUploadView(FormView):
 
 
 def images(request):
-    # store tags in a list if any are selected
-    selected_tags = request.GET.get('tags')
-    selected_tags_list = []
-    if selected_tags:
-        print('tags in raw format read from url: ' + selected_tags)
-        if ' ' in selected_tags:
-            selected_tags_list = selected_tags.split(' ')
-        else:
-            selected_tags_list.append(selected_tags)
-        print('tags converted to list: ' + selected_tags)
-
     # filter images by any given tags, otherwise show all images
-    if selected_tags_list:
-        picture_list = Image.objects.filter(
-            tags=','.join(selected_tags_list)).order_by('uploaded_date')
+    selected_tags = request.GET.getlist('tag')
+    if selected_tags:
+        image_list = Image.objects.filter(
+            tags=','.join(selected_tags)).order_by('uploaded_date')
     else:
-        picture_list = Image.objects.all().order_by('uploaded_date')
-
-    # put selected tags in a url parameter list format
-    selected_tags_for_url_parameter = ''
-    first_tag = True
-    for tag in selected_tags_list:
-        if first_tag:
-            selected_tags_for_url_parameter += tag
-            first_tag = False
-        else:
-            selected_tags_for_url_parameter += '+' + tag
-    print('tags in url list format: ' + selected_tags_for_url_parameter)
+        image_list = Image.objects.all().order_by('uploaded_date')
 
     # get list of tags from all images
     tags = []
-    for picture in Image.objects.all():
-        for tag in picture.tags.all():
-            if tag not in tags and tag not in selected_tags_list:
+    for image in Image.objects.all():
+        for tag in image.tags.all():
+            if tag not in tags and tag not in selected_tags:
                 tags.append(tag)
     # sort tags alphabetically
     tags.sort(key=lambda x: x.name)
 
-    paginator = Paginator(picture_list, 20)  # Number of pictures per page
-
+    paginator = Paginator(image_list, 20)  # Number of pictures per page
     page = request.GET.get('page')
     try:
-        pictures = paginator.page(page)
+        image = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        pictures = paginator.page(1)
+        image = paginator.page(1)
     except EmptyPage:
         # If page is out of range, deliver last page of results.
-        pictures = paginator.page(paginator.num_pages)
+        image = paginator.page(paginator.num_pages)
 
     url_query_string = request.GET.urlencode()
-    print('Encoded URL: ' + url_query_string)
 
-    context = {'pictures': pictures, 'page': page,
-               'tags': tags, 'selected_tags': selected_tags_list,
-               'selected_tags_for_url_parameter': selected_tags_for_url_parameter,
+    context = {'pictures': image, 'page': page,
+               'tags': tags, 'selected_tags': selected_tags,
                'url_query_string': url_query_string}
 
     return render(request, 'images/images.html', context)
