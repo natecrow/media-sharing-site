@@ -18,10 +18,20 @@
       <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Submit tag edits</button>
+        <button type="submit">Submit edits</button>
       </form>
     </p>
   {% else %}
+  <p>
+    <label>Category:</label>
+    {{ picture.get_category_display }}
+  </p>
+  {% if picture.color %}
+    <p>
+      <label>Color:</label>
+      {{ picture.get_color_display }}
+    </p>
+  {% endif %}
     <p>Tags: {{ picture.tags }}</p>
   {% endif %}
   <img class="fit" src="{{ picture.image.url }}" alt="{{ picture.image.name }}" />

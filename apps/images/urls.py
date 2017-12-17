@@ -3,7 +3,6 @@ from django.conf.urls import url
 from . import views
 
 
-# app_name = 'images'
 urlpatterns = [
     url(r'^upload/$',
         views.ImageUploadView.as_view(), name='upload_images'),

@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic.edit import FormView
 
-from .forms import ImageUploadForm, TagForm
+from .forms import ImageUploadForm, ImageEditForm
 from .models import Image
 
 logger = logging.getLogger('uploads')
@@ -27,6 +27,8 @@ class ImageUploadView(FormView):
                 logger.info(
                     'Creating model for image: \"' + f.name + '\"')
                 image = Image(image=f, user=request.user)
+                image.category = form.cleaned_data['category']
+                image.color = form.cleaned_data['color']
                 image.tags = form.cleaned_data['tags']
                 image.save()
                 logger.info('Saved image \"' + f.name + '\"')
@@ -103,7 +105,7 @@ def images(request):
 
 def view_image(request, image_id):
     picture = Image.objects.get(id=image_id)
-    form = TagForm(request.POST or None, instance=picture)
+    form = ImageEditForm(request.POST or None, instance=picture)
 
     if request.method == "POST" and form.is_valid():
         form.save()
