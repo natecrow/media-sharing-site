@@ -8,7 +8,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from ..imageshare.models import Image
+from ..images.models import Image
 from .forms import ProfilePictureUploadForm, SignUpForm, EditProfileForm
 from .models import Profile
 

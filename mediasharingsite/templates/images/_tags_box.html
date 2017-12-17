@@ -2,7 +2,7 @@
   <h3>Tags</h3>
   {% if selected_tags %}
     <p>
-      (<a href="{% url 'imageshare:images' %}?page=1">clear all</a>)
+      (<a href="{% url 'images' %}?page=1">clear all</a>)
     </p>
     <p>
       selected:
@@ -15,11 +15,11 @@
     <p>
       {% for tag in tags %}
         {% if selected_tags_for_url_parameter %}
-          <a href="{% url 'imageshare:images' %}?page=1&tags={{ selected_tags_for_url_parameter }}+{{ tag }}">
+          <a href="{% url 'images' %}?page=1&tags={{ selected_tags_for_url_parameter }}+{{ tag }}">
             {{tag}}
           </a>
         {% else %}
-          <a href="{% url 'imageshare:images' %}?page=1&tags={{ tag }}">
+          <a href="{% url 'images' %}?page=1&tags={{ tag }}">
             {{tag}}
           </a>
         {% endif %}

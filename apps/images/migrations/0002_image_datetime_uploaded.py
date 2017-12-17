@@ -9,7 +9,7 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('imageshare', '0001_initial'),
+        ('images', '0001_initial'),
     ]
 
     operations = [

@@ -7,7 +7,7 @@
         <div class="item">
           <a href="{{ pic.image.url }}" target="_blank">
             {% thumbnail pic "150x150" crop="center" as im %}
-              <a href="{% url 'imageshare:view_image' pic.id %}">
+              <a href="{% url 'view_image' pic.id %}">
                 <img src="{{ pic.image.url }}" height="{{ im.height }}" width="{{ im.width }}" />
               </a>
             {% endthumbnail %}

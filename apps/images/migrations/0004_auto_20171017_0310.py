@@ -10,7 +10,7 @@ import tagulous.models.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('imageshare', '0003_auto_20170928_0028'),
+        ('images', '0003_auto_20170928_0028'),
     ]
 
     operations = [
@@ -36,6 +36,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='image',
             name='tags',
-            field=tagulous.models.fields.TagField(_set_tag_meta=True, force_lowercase=True, help_text='Enter a comma-separated tag string', to='imageshare.ImageTag'),
+            field=tagulous.models.fields.TagField(_set_tag_meta=True, force_lowercase=True, help_text='Enter a comma-separated tag string', to='images.ImageTag'),
         ),
     ]

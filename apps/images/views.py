@@ -16,7 +16,7 @@ logger = logging.getLogger('uploads')
 # @login_required(login_url='accounts:login')
 class ImageUploadView(FormView):
     form_class = ImageUploadForm
-    template_name = 'imageshare/upload_images.html'
+    template_name = 'images/upload_images.html'
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -90,11 +90,15 @@ def images(request):
         # If page is out of range, deliver last page of results.
         pictures = paginator.page(paginator.num_pages)
 
+    url_query_string = request.GET.urlencode()
+    print('Encoded URL: ' + url_query_string)
+
     context = {'pictures': pictures, 'page': page,
                'tags': tags, 'selected_tags': selected_tags_list,
-               'selected_tags_for_url_parameter': selected_tags_for_url_parameter}
+               'selected_tags_for_url_parameter': selected_tags_for_url_parameter,
+               'url_query_string': url_query_string}
 
-    return render(request, 'imageshare/images.html', context)
+    return render(request, 'images/images.html', context)
 
 
 def view_image(request, image_id):
@@ -110,4 +114,4 @@ def view_image(request, image_id):
     context = {'picture': picture, 'form': form, 'picture_basename': picture_basename,
                'picture_upload_date': picture_upload_date}
 
-    return render(request, 'imageshare/view_image.html', context)
+    return render(request, 'images/view_image.html', context)

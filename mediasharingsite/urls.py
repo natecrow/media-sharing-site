@@ -28,7 +28,7 @@ urlpatterns = [
 
     url(r'^accounts/', include('apps.accounts.urls')),
     url(r'^profiles/', include('apps.directory.urls')),
-    url(r'^imageshare/', include('apps.imageshare.urls')),
+    url(r'^images/', include('apps.images.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

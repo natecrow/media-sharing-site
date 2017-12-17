@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('imageshare', '0005_image_color'),
+        ('images', '0005_image_color'),
     ]
 
     operations = [

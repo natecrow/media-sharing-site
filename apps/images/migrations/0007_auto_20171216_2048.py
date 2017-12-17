@@ -8,7 +8,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('imageshare', '0006_image_categories'),
+        ('images', '0006_image_categories'),
     ]
 
     operations = [

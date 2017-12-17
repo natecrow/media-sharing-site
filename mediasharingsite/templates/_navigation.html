@@ -15,13 +15,13 @@
             {% if request.user.is_authenticated %}
               <li><a href="{% url 'directory:profiles_directory' %}">Directory</a></li>
             {% endif %}
-            <li><a href="{% url 'imageshare:images' %}">Images</a></li>
+            <li><a href="{% url 'images' %}">Images</a></li>
           </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated %}
           <li><a href="{% url 'accounts:profile_page' username=request.user.username %}">View Profile</a></li>
           <li><a href="{% url 'accounts:edit_profile' %}">Edit Profile</a></li>
-          <li><a href="{% url 'imageshare:upload_images' %}">Upload Images</a></li>
+          <li><a href="{% url 'upload_images' %}">Upload Images</a></li>
           <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
         {% else %}
           <li><a href="{% url 'accounts:login' %}">Login</a></li>
