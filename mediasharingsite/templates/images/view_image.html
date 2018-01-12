@@ -22,17 +22,20 @@
       </form>
     </p>
   {% else %}
-  <p>
-    <label>Category:</label>
-    {{ picture.get_category_display }}
-  </p>
-  {% if picture.color %}
     <p>
-      <label>Color:</label>
-      {{ picture.get_color_display }}
+      <label>Category:</label>
+      {{ picture.get_category_display }}
     </p>
-  {% endif %}
-    <p>Tags: {{ picture.tags }}</p>
+    {% if picture.color %}
+      <p>
+        <label>Color:</label>
+        {{ picture.get_color_display }}
+      </p>
+    {% endif %}
+    <p>
+      <label>Tags</label>
+      {{ picture.tags }}
+    </p>
   {% endif %}
   <img class="fit" src="{{ picture.image.url }}" alt="{{ picture.image.name }}" />
 {% endblock %}
