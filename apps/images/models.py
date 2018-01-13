@@ -30,7 +30,7 @@ class MediaFile(models.Model):
         ('MISC', 'misc'),
         ('MUSIC', 'music'),
         ('NATURE', 'nature'),
-        ('SCI-FI', 'sci-fi'),
+        ('SCIFI', 'sci-fi'),
         ('SPACE', 'space'),
         ('SPORTS', 'sports'),
         ('VEHICLES', 'vehicles'),
