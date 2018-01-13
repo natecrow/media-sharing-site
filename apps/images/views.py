@@ -27,8 +27,6 @@ class ImageUploadView(FormView):
                 logger.info(
                     'Creating model for image: \"' + f.name + '\"')
                 image = Image(image=f, user=request.user)
-                image.category = form.cleaned_data['category']
-                image.color = form.cleaned_data['color']
                 image.tags = form.cleaned_data['tags']
                 image.save()
                 logger.info('Saved image \"' + f.name + '\"')
@@ -59,9 +57,6 @@ def images(request):
     # sort tags alphabetically
     tags.sort(key=lambda x: x.name)
 
-    # get list of image categories
-    categories = Image.CATEGORIES
-
     paginator = Paginator(image_list, 20)  # Number of pictures per page
     page = request.GET.get('page')
     try:
@@ -75,53 +70,7 @@ def images(request):
 
     url_query_string = request.GET.urlencode()
 
-    context = {'pictures': image, 'page': page, 'categories': categories,
-               'tags': tags, 'selected_tags': selected_tags,
-               'url_query_string': url_query_string}
-
-    return render(request, 'images/images.html', context)
-
-
-def categories(request, category):
-    '''
-    View images by the given category.
-    '''
-    # TODO get rid of duplicated code from images view
-
-    # filter images by any given tags, otherwise show all images
-    selected_tags = request.GET.getlist('tag')
-    if selected_tags:
-        image_list = Image.objects.filter(
-            tags=','.join(selected_tags), category=category).order_by('uploaded_date')
-    else:
-        image_list = Image.objects.filter(category=category).order_by('uploaded_date')
-
-    # get list of tags from all images
-    tags = []
-    for image in Image.objects.all():
-        for tag in image.tags.all():
-            if tag not in tags and tag not in selected_tags:
-                tags.append(tag)
-    # sort tags alphabetically
-    tags.sort(key=lambda x: x.name)
-
-    # get list of image categories
-    categories = Image.CATEGORIES
-
-    paginator = Paginator(image_list, 20)  # Number of pictures per page
-    page = request.GET.get('page')
-    try:
-        image = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        image = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range, deliver last page of results.
-        image = paginator.page(paginator.num_pages)
-
-    url_query_string = request.GET.urlencode()
-
-    context = {'pictures': image, 'page': page, 'categories': categories,
+    context = {'pictures': image, 'page': page,
                'tags': tags, 'selected_tags': selected_tags,
                'url_query_string': url_query_string}
 

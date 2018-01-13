@@ -20,22 +20,6 @@ class MediaFile(models.Model):
         User, on_delete=models.CASCADE, related_name='images')
     uploaded_date = models.DateTimeField(
         null=False, blank=False, auto_now_add=True)
-    CATEGORIES = [
-        ('ABSTRACT', 'abstract'),
-        ('ANIMALS', 'animals'),
-        ('ARCHITECTURE', 'architecture'),
-        ('FANTASY', 'fantasy'),
-        ('FOOD', 'food'),
-        ('HOLIDAYS', 'holidays'),
-        ('MISC', 'misc'),
-        ('MUSIC', 'music'),
-        ('NATURE', 'nature'),
-        ('SCIFI', 'sci-fi'),
-        ('SPACE', 'space'),
-        ('SPORTS', 'sports'),
-        ('VEHICLES', 'vehicles'),
-    ]
-    category = models.CharField(max_length=20, choices=CATEGORIES, default='MISC')
 
     class Meta:
         abstract = True
@@ -44,21 +28,6 @@ class MediaFile(models.Model):
 class Image(MediaFile):
     image = models.ImageField(upload_to=get_image_path)
     tags = tagulous_models.TagField(to=ImageTag)
-    COLORS = [
-        ('RED', 'red'),
-        ('ORANGE', 'orange'),
-        ('YELLOW', 'yellow'),
-        ('GREEN', 'green'),
-        ('TEAL', 'teal'),
-        ('BLUE', 'blue'),
-        ('PURPLE', 'purple'),
-        ('PINK', 'pink'),
-        ('WHITE', 'white'),
-        ('GRAY', 'gray'),
-        ('BLACK', 'black'),
-        ('BROWN', 'brown'),
-    ]
-    color = models.CharField(max_length=6, choices=COLORS, blank=True)
 
     def __str__(self):
         return str(self.image.name)

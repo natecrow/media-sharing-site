@@ -9,10 +9,10 @@ class ImageUploadForm(forms.ModelForm):
 
     class Meta:
         model = Image
-        fields = ['image', 'category', 'color', 'tags']
+        fields = ['image', 'tags']
 
 
 class ImageEditForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ['category', 'color', 'tags']
+        fields = ['tags']

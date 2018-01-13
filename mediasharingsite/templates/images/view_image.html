@@ -23,16 +23,6 @@
     </p>
   {% else %}
     <p>
-      <label>Category:</label>
-      {{ picture.get_category_display }}
-    </p>
-    {% if picture.color %}
-      <p>
-        <label>Color:</label>
-        {{ picture.get_color_display }}
-      </p>
-    {% endif %}
-    <p>
       <label>Tags</label>
       {{ picture.tags }}
     </p>
