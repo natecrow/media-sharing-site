@@ -26,11 +26,7 @@ def signup(request):
             user.save()
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
-            login(request, user)
-            return redirect(reverse(
-                'accounts:profile_page',
-                kwargs={'username': request.user.username})
-            )
+            return redirect(reverse('accounts:login'))
     else:
         form = SignUpForm()
     return render(request, 'accounts/signup.html', {'form': form})
