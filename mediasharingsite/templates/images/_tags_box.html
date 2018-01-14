@@ -14,7 +14,7 @@
   {% if tags %}
     <p>
       {% for tag in tags %}
-        <a href="{% url 'images' %}?tag={{ tag }}{% if url_query_string %}&{{ url_query_string }}{% endif %}">
+        <a href="{% url 'images' %}?tag={{ tag|slugify }}{% if url_query_string %}&{{ url_query_string }}{% endif %}">
           {{tag}}
         </a>
       {% endfor %}

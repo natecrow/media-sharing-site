@@ -12,7 +12,8 @@ def get_image_path(instance, filename):
 
 # Workaround to prevent naming error from tagulous
 class ImageTag(tagulous_models.TagModel):
-    pass
+    class TagMeta:
+        space_delimiter = False
 
 
 class MediaFile(models.Model):

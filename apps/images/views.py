@@ -43,6 +43,8 @@ def images(request):
     # filter images by any given tags, otherwise show all images
     selected_tags = request.GET.getlist('tag')
     if selected_tags:
+        # handle spaces in any tags
+        selected_tags = [tag.replace('-', ' ') for tag in selected_tags]
         image_list = Image.objects.filter(
             tags=','.join(selected_tags)).order_by('uploaded_date')
     else:
