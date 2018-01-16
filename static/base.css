@@ -7,6 +7,11 @@ div#grid div.item {
     background-color: lightslategray;
 }
 
+div#grid div.item div.item-thumbnail {
+    width: 150px;
+    height: 150px;
+}
+
 div#grid div.item p {
     background-color: lightgray;
     padding: 0 10px 0 10px;
