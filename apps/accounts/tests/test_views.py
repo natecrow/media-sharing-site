@@ -7,9 +7,37 @@ from django.urls import reverse
 
 from . import constants
 from .. import views
+from ..forms import SignUpForm
 
 
-class TestViews(TestCase):
+class TestSignup(TestCase):
+
+    def test_signup_page_loads(self):
+        response = self.client.get(reverse('accounts:signup'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Signup')
+
+    def test_redirect_to_login_page_after_signing_up(self):
+        valid_data = {
+            'first_name': constants.VALID_FIRST_NAME,
+            'last_name': constants.VALID_LAST_NAME,
+            'email': constants.VALID_EMAIL,
+            'username': constants.VALID_USERNAME,
+            'password1': constants.VALID_PASSWORD,
+            'password2': constants.VALID_PASSWORD,
+            'birth_date': constants.VALID_BIRTH_DATE,
+            'gender': constants.VALID_GENDER,
+            'location': constants.VALID_LOCATION,
+        }
+
+        response = self.client.post(
+            reverse('accounts:signup'), valid_data, follow=True)
+
+        expected_last_url = reverse('accounts:login')
+        self.assertRedirects(response, expected_last_url)
+
+
+class TestLogin(TestCase):
 
     def setUp(self):
         # create test user
@@ -31,16 +59,21 @@ class TestViews(TestCase):
     def tearDown(self):
         User.objects.get(username=constants.VALID_USERNAME).delete()
 
+    def test_login_page_loads(self):
+        response = self.client.get(reverse('accounts:login'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Login')
+
     def test_redirect_to_profile_page_after_logging_in(self):
         response = self.client.post(
             reverse('accounts:login'), self.credentials, follow=True)
 
         user = auth.get_user(self.client)
         assert user.is_authenticated()
-        last_url = response.request['PATH_INFO']
+
         expected_last_url = reverse('accounts:profile_page',
                                     kwargs={'username': constants.VALID_USERNAME})
-        self.assertEqual(last_url, expected_last_url)
+        self.assertRedirects(response, expected_last_url)
 
 
 class TestAgeCalculation(TestCase):
