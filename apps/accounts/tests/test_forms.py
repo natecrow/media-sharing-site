@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from . import constants
-from ..forms import SignUpForm
+from ..forms import SignUpForm, EditProfileForm
 
 
 class TestSignupForm(TestCase):
@@ -35,6 +35,27 @@ class TestSignupForm(TestCase):
             'location': constants.VALID_LOCATION,
         }
         form = SignUpForm(invalid_data)
+        self.assertFalse(form.is_valid())
+
+
+class TestEditProfileForm(TestCase):
+
+    def test_form_with_valid_data(self):
+        valid_data = {
+            'first_name': constants.VALID_FIRST_NAME,
+            'last_name': constants.VALID_LAST_NAME,
+            'email': constants.VALID_EMAIL,
+            'location': constants.VALID_LOCATION,
+            'gender': constants.VALID_GENDER,
+        }
+        form = EditProfileForm(valid_data)
+        self.assertTrue(form.is_valid())
+
+    def test_form_with_invalid_data(self):
+        invalid_data = {
+            'email': constants.INVALID_EMAIL
+        }
+        form = EditProfileForm(invalid_data)
         self.assertFalse(form.is_valid())
 
 

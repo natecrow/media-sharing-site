@@ -97,6 +97,64 @@ class TestEditProfile(TestCase):
         response = self.client.get(reverse('accounts:edit_profile'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Edit Profile')
+        self.assertContains(response, 'Change profile picture')
+        self.assertContains(response, 'First name')
+        self.assertContains(response, 'Last name')
+        self.assertContains(response, 'Email')
+        self.assertContains(response, 'Location')
+        self.assertContains(response, 'Gender')
+
+    def test_edit_profile_positive(self):
+        self.client.login(username=constants.VALID_USERNAME,
+                          password=constants.VALID_PASSWORD)
+
+        updated_first_name = 'Jane'
+        updated_last_name = 'Dough'
+        updated_email = 'jane.dough@test.com'
+        updated_gender = 'f'
+        updated_location = 'Testlandia'
+        valid_data = {
+            'first_name': updated_first_name,
+            'last_name': updated_last_name,
+            'email': updated_email,
+            'gender': updated_gender,
+            'location': updated_location,
+        }
+
+        response = self.client.post(reverse('accounts:edit_profile'),
+                                    valid_data, follow=True)
+
+        expected_last_url = reverse(
+            'accounts:profile_page',
+            kwargs={'username': self.test_user.username})
+        self.assertRedirects(response, expected_last_url)
+
+        # Assert that user profile info was updated correctly
+        updated_user = User.objects.get(id=self.test_user.id)
+        self.assertEqual(updated_user.email, updated_email)
+        self.assertEqual(updated_user.first_name, updated_first_name)
+        self.assertEqual(updated_user.last_name, updated_last_name)
+        self.assertEqual(updated_user.profile.gender, updated_gender)
+        self.assertEqual(updated_user.profile.location, updated_location)
+
+    def test_edit_profile_negative(self):
+        '''
+        Try to update profile with invalid email address.
+        '''
+        self.client.login(username=constants.VALID_USERNAME,
+                          password=constants.VALID_PASSWORD)
+
+        invalid_data = {'email': constants.INVALID_EMAIL}
+
+        response = self.client.post(
+            reverse('accounts:edit_profile'), invalid_data)
+
+        # Assert that we stay on edit profile page
+        self.assertEqual(response.status_code, 200)
+
+        # Assert that user profile info was NOT updated
+        updated_user = User.objects.get(id=self.test_user.id)
+        self.assertNotEqual(updated_user.email, constants.INVALID_EMAIL)
 
 
 class TestAgeCalculation(TestCase):

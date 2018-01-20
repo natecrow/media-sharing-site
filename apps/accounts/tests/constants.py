@@ -11,9 +11,9 @@ def create_image(size=(800, 600), image_mode='RGB', image_format='JPEG'):
 
 
 # valid data
-VALID_FIRST_NAME = 'john'
-VALID_LAST_NAME = 'doe'
-VALID_EMAIL = 'johndoe@test.com'
+VALID_FIRST_NAME = 'John'
+VALID_LAST_NAME = 'Doe'
+VALID_EMAIL = 'john.doe@test.com'
 VALID_USERNAME = 'johndoe'
 VALID_PASSWORD = 'password123'
 VALID_BIRTH_DATE = '1990-01-01'
@@ -24,3 +24,4 @@ VALID_PROFILE_PIC = SimpleUploadedFile(
 
 # invalid data
 FUTURE_BIRTH_DATE = '2999-01-01'
+INVALID_EMAIL = 'invalidemail.com'
