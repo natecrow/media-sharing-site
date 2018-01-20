@@ -84,16 +84,6 @@ def change_profile_picture(request):
                   {'form': form})
 
 
-def profile_redirect(request):
-    """
-    Used for redirecting to a user's profile page when coming from a static url
-    (such as the LOGIN_REDIRECT_URL)
-    """
-    return redirect(reverse(
-        'accounts:profile_page',
-        kwargs={'username': request.user.username}))
-
-
 def profile_page(request, username):
     user = User.objects.get(username=username)
     if (user.profile.birth_date):
@@ -117,6 +107,16 @@ def profile_page(request, username):
     context = {'user': user, 'age': age, 'pictures': pictures}
 
     return render(request, 'accounts/profile_page.html', context)
+
+
+def profile_redirect(request):
+    """
+    Used for redirecting to a user's profile page when coming from a static url
+    (such as the LOGIN_REDIRECT_URL)
+    """
+    return redirect(reverse(
+        'accounts:profile_page',
+        kwargs={'username': request.user.username}))
 
 
 def calculate_age(from_date, to_date):

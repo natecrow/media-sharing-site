@@ -39,6 +39,35 @@ class TestSignup(TestCase):
 
 class TestLogin(TestCase):
 
+    def test_login_page_loads(self):
+        response = self.client.get(reverse('accounts:login'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Login')
+
+    def test_login_and_redirect_to_profile_page(self):
+        # Create a user
+        credentials = {'username': constants.VALID_USERNAME,
+                       'password': constants.VALID_PASSWORD}
+        test_user = User.objects.create_user(
+            first_name=constants.VALID_FIRST_NAME,
+            last_name=constants.VALID_LAST_NAME,
+            **credentials
+        )
+        test_user.save()
+
+        response = self.client.post(
+            reverse('accounts:login'), credentials, follow=True)
+
+        user = auth.get_user(self.client)
+        self.assertTrue(user.is_authenticated())
+
+        expected_last_url = reverse('accounts:profile_page',
+                                    kwargs={'username': constants.VALID_USERNAME})
+        self.assertRedirects(response, expected_last_url)
+
+
+class TestEditProfile(TestCase):
+
     def setUp(self):
         # create test user
         self.credentials = {'username': constants.VALID_USERNAME,
@@ -56,24 +85,18 @@ class TestLogin(TestCase):
         self.test_user.is_active = True
         self.test_user.save()
 
-    def tearDown(self):
-        User.objects.get(username=constants.VALID_USERNAME).delete()
-
-    def test_login_page_loads(self):
-        response = self.client.get(reverse('accounts:login'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Login')
-
-    def test_redirect_to_profile_page_after_logging_in(self):
-        response = self.client.post(
-            reverse('accounts:login'), self.credentials, follow=True)
-
-        user = auth.get_user(self.client)
-        assert user.is_authenticated()
-
-        expected_last_url = reverse('accounts:profile_page',
-                                    kwargs={'username': constants.VALID_USERNAME})
+    def test_edit_profile_page_redirects_to_login_page_when_not_logged_in(self):
+        response = self.client.get(reverse('accounts:edit_profile'))
+        expected_last_url = reverse(
+            'accounts:login') + '?next=' + reverse('accounts:edit_profile')
         self.assertRedirects(response, expected_last_url)
+
+    def test_edit_profile_page_loads(self):
+        self.client.login(username=constants.VALID_USERNAME,
+                          password=constants.VALID_PASSWORD)
+        response = self.client.get(reverse('accounts:edit_profile'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Edit Profile')
 
 
 class TestAgeCalculation(TestCase):
