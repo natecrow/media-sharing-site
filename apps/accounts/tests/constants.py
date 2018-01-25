@@ -24,4 +24,7 @@ VALID_PROFILE_PIC = SimpleUploadedFile(
 
 # invalid data
 FUTURE_BIRTH_DATE = '2999-01-01'
+INVALID_BIRTH_DATE = '12.12.1985'
 INVALID_EMAIL = 'invalidemail.com'
+TEXT_FILE = SimpleUploadedFile(
+            'wrong_file_type.txt', b'This is not an image file.')

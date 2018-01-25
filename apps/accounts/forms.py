@@ -20,8 +20,8 @@ class SignUpForm(UserCreationForm):
         cleaned_data = super(SignUpForm, self).clean()
         birth_date = cleaned_data.get('birth_date')
 
-        if birth_date > date.today():
-            raise forms.ValidationError("Birth date cannot be in the future.")
+        if birth_date and birth_date > date.today():
+            raise forms.ValidationError('Birth date cannot be in the future.')
 
     class Meta:
         model = User

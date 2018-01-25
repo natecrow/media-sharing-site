@@ -138,9 +138,9 @@ class TestEditProfile(TestCase):
         self.assertEqual(updated_user.profile.location, updated_location)
 
     def test_edit_profile_negative(self):
-        '''
+        """
         Try to update profile with invalid email address.
-        '''
+        """
         self.client.login(username=constants.VALID_USERNAME,
                           password=constants.VALID_PASSWORD)
 
@@ -155,6 +155,18 @@ class TestEditProfile(TestCase):
         # Assert that user profile info was NOT updated
         updated_user = User.objects.get(id=self.test_user.id)
         self.assertNotEqual(updated_user.email, constants.INVALID_EMAIL)
+
+
+class TestChangeProfilePicture(TestCase):
+
+    def test_change_profile_picture_page_redirects_to_login_page_when_not_logged_in(self):
+        response = self.client.post(
+            reverse('accounts:change_profile_picture'),
+            {'image': constants.VALID_PROFILE_PIC})
+
+        expected_last_url = reverse(
+            'accounts:login') + '?next=' + reverse('accounts:change_profile_picture')
+        self.assertRedirects(response, expected_last_url)
 
 
 class TestAgeCalculation(TestCase):
