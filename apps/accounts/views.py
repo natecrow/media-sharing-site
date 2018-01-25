@@ -120,6 +120,10 @@ def profile_redirect(request):
 
 
 def calculate_age(from_date, to_date):
+    # parameters should be dates
+    assert(isinstance(from_date, date))
+    assert(isinstance(to_date, date))
+
     # interval should range from past to future
     assert(from_date < to_date)
 

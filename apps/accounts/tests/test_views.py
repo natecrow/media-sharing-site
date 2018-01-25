@@ -185,6 +185,14 @@ class TestAgeCalculation(TestCase):
                 self.assertEqual(age, expected_age,
                                  'Actual age is not the expected age')
 
-    def test_calculate_age_with_invalid_input(self):
+    def test_calculate_age_with_switched_dates(self):
         self.assertRaises(AssertionError, views.calculate_age,
-                          date(2017, 8, 14), date(1993, 12, 4))
+            date(2017, 8, 14), date(1993, 12, 4))
+
+    def test_calculate_age_with_invalid_type_1st_param(self):
+        self.assertRaises(AssertionError, views.calculate_age,
+            constants.INVALID_BIRTH_DATE, date(1993, 12, 4))
+
+    def test_calculate_age_with_invalid_type_2nd_param(self):
+        self.assertRaises(AssertionError, views.calculate_age,
+            date(2017, 8, 14), constants.INVALID_BIRTH_DATE)
