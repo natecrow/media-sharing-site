@@ -227,6 +227,54 @@ class TestChangeProfilePicture(TestCase):
             updated_user.profile.profile_picture, constants.TEXT_FILE)
 
 
+class TestProfilePage(TestCase):
+
+    def setUp(self):
+        # create test user
+        self.credentials = {'username': constants.VALID_USERNAME,
+                            'password': constants.VALID_PASSWORD}
+        self.test_user = User.objects.create_user(
+            first_name=constants.VALID_FIRST_NAME,
+            last_name=constants.VALID_LAST_NAME,
+            email=constants.VALID_EMAIL,
+            **self.credentials
+        )
+        self.test_user.profile.gender = constants.VALID_GENDER
+        self.test_user.profile.location = constants.VALID_LOCATION
+        self.test_user.is_active = True
+        self.test_user.save()
+
+    def test_profile_page_loads_positive(self):
+        """
+        Test that profile page renders for a given user and that public info
+        is displayed while private info is not.
+        """
+        self.test_user.profile.birth_date = constants.VALID_BIRTH_DATE
+        self.test_user.save()
+        response = self.client.get(reverse('accounts:profile_page', kwargs={
+                                   'username': constants.VALID_USERNAME}))
+        self.assertEqual(response.status_code, 200)
+
+        # Info that should be displayed
+        self.assertContains(response, constants.VALID_USERNAME)
+        self.assertContains(response, constants.VALID_FIRST_NAME)
+        self.assertContains(response, constants.VALID_LAST_NAME)
+        self.assertContains(response, constants.VALID_GENDER)
+        self.assertContains(response, constants.VALID_LOCATION)
+        self.assertContains(response, 'Age:')
+
+        # Info that shouldn't be displayed
+        self.assertNotContains(response, constants.VALID_EMAIL)
+        self.assertNotContains(response, constants.VALID_PASSWORD)
+
+    def test_age_is_unknown_when_user_has_not_given_birth_date(self):
+        response = self.client.get(reverse('accounts:profile_page', kwargs={
+                                   'username': constants.VALID_USERNAME}))
+        self.assertEqual(response.status_code, 200)
+
+        self.assertNotContains(response, 'Age:')
+
+
 class TestAgeCalculation(TestCase):
 
     def test_calculate_age_with_valid_input(self):

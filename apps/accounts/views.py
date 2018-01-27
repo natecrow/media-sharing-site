@@ -89,7 +89,7 @@ def profile_page(request, username):
     if (user.profile.birth_date):
         age = calculate_age(user.profile.birth_date, date.today())
     else:
-        age = '?'
+        age = None
     picture_list = Image.objects.filter(user=user).order_by('uploaded_date')
 
     paginator = Paginator(picture_list, 5)  # Number of pictures per page
