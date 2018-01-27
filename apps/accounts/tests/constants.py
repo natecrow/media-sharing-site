@@ -20,7 +20,7 @@ VALID_BIRTH_DATE = '1990-01-01'
 VALID_GENDER = 'm'
 VALID_LOCATION = 'testland'
 VALID_PROFILE_PIC = SimpleUploadedFile(
-    'profile_pic_test.png', create_image().getvalue())
+    'profile_pic_test.jpg', create_image().getvalue())
 
 # invalid data
 FUTURE_BIRTH_DATE = '2999-01-01'
