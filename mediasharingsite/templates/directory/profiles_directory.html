@@ -11,26 +11,22 @@
   <div id="grid-content">
     {% if users %}
       {% for user in users %}
-        {% if not user.is_staff %}
-          <div class="item">
-            <a href="{% url 'accounts:profile_page' username=user.username %}">
-              <div class="item-thumbnail">
-                {% if user.profile.profile_picture %}
-                  {% thumbnail user.profile.profile_picture "150x150" crop="center" as im %}
-                    <img src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}"/>
-                  {% endthumbnail %}
-                {% else %}
-                    <img src="{% static "images/default_profile_pic.svg" %}" alt="profile pic" height="150" width="150"/>
-                {% endif %}
-              </div>
-            </a>
-            <a href="{% url 'accounts:profile_page' username=user.username %}">
-              <p>{{ user.username }}</p>
-            </a>
-          </div>
-        {% else %}
-          <p>There are no profiles to display.</p>
-        {% endif %}
+        <div class="item">
+          <a href="{% url 'accounts:profile_page' username=user.username %}">
+            <div class="item-thumbnail">
+              {% if user.profile.profile_picture %}
+                {% thumbnail user.profile.profile_picture "150x150" crop="center" as im %}
+                  <img src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}"/>
+                {% endthumbnail %}
+              {% else %}
+                  <img src="{% static "images/default_profile_pic.svg" %}" alt="profile pic" height="150" width="150"/>
+              {% endif %}
+            </div>
+          </a>
+          <a href="{% url 'accounts:profile_page' username=user.username %}">
+            <p>{{ user.username }}</p>
+          </a>
+        </div>
       {% endfor %}
     {% else %}
       <p>There are no profiles to display.</p>
