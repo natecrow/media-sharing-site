@@ -44,10 +44,7 @@ def edit_profile(request):
             user.profile.location = form.cleaned_data.get('location')
             user.profile.gender = form.cleaned_data.get('gender')
             user.save()
-            return redirect(reverse(
-                'accounts:profile_page',
-                kwargs={'username': request.user.username})
-            )
+            return redirect(user.profile.get_absolute_url())
     else:
         form = EditProfileForm(
             instance=user,
@@ -74,10 +71,7 @@ def change_profile_picture(request):
             request.POST, files=request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect(reverse(
-                'accounts:profile_page',
-                kwargs={'username': request.user.username})
-            )
+            return redirect(profile.get_absolute_url())
     else:
         form = ProfilePictureUploadForm(instance=profile)
     return render(request, 'accounts/upload_profile_picture.html',
@@ -114,9 +108,7 @@ def profile_redirect(request):
     Used for redirecting to a user's profile page when coming from a static url
     (such as the LOGIN_REDIRECT_URL)
     """
-    return redirect(reverse(
-        'accounts:profile_page',
-        kwargs={'username': request.user.username}))
+    return redirect(request.user.profile.get_absolute_url())
 
 
 def calculate_age(from_date, to_date):

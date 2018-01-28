@@ -61,8 +61,7 @@ class TestLogin(TestCase):
         user = auth.get_user(self.client)
         self.assertTrue(user.is_authenticated())
 
-        expected_last_url = reverse('accounts:profile_page',
-                                    kwargs={'username': constants.VALID_USERNAME})
+        expected_last_url = user.profile.get_absolute_url()
         self.assertRedirects(response, expected_last_url)
 
 
@@ -124,9 +123,7 @@ class TestEditProfile(TestCase):
         response = self.client.post(reverse('accounts:edit_profile'),
                                     data=valid_data, follow=True)
 
-        expected_last_url = reverse(
-            'accounts:profile_page',
-            kwargs={'username': self.test_user.username})
+        expected_last_url = self.test_user.profile.get_absolute_url()
         self.assertRedirects(response, expected_last_url)
 
         # Assert that user profile info was updated correctly
@@ -200,9 +197,7 @@ class TestChangeProfilePicture(TestCase):
         # print('Size of profile picture in test: ', constants.VALID_PROFILE_PIC.size)
         # # print('\n\nResponse content: ' + response.content.decode())
 
-        # expected_last_url = reverse(
-        #     'accounts:profile_page',
-        #     kwargs={'username': self.test_user.username})
+        # expected_last_url = self.test_user.profile.get_absolute_url()
         # self.assertRedirects(response, expected_last_url)
 
         # # Assert that profile picture was changed
@@ -251,8 +246,7 @@ class TestProfilePage(TestCase):
         """
         self.test_user.profile.birth_date = constants.VALID_BIRTH_DATE
         self.test_user.save()
-        response = self.client.get(reverse('accounts:profile_page', kwargs={
-                                   'username': constants.VALID_USERNAME}))
+        response = self.client.get(self.test_user.profile.get_absolute_url())
         self.assertEqual(response.status_code, 200)
 
         # Info that should be displayed
@@ -268,8 +262,7 @@ class TestProfilePage(TestCase):
         self.assertNotContains(response, constants.VALID_PASSWORD)
 
     def test_age_is_unknown_when_user_has_not_given_birth_date(self):
-        response = self.client.get(reverse('accounts:profile_page', kwargs={
-                                   'username': constants.VALID_USERNAME}))
+        response = self.client.get(self.test_user.profile.get_absolute_url())
         self.assertEqual(response.status_code, 200)
 
         self.assertNotContains(response, 'Age:')

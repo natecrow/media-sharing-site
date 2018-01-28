@@ -12,7 +12,7 @@
     {% if users %}
       {% for user in users %}
         <div class="item">
-          <a href="{% url 'accounts:profile_page' username=user.username %}">
+          <a href="{{ user.profile.get_absolute_url }}">
             <div class="item-thumbnail">
               {% if user.profile.profile_picture %}
                 {% thumbnail user.profile.profile_picture "150x150" crop="center" as im %}
@@ -23,7 +23,7 @@
               {% endif %}
             </div>
           </a>
-          <a href="{% url 'accounts:profile_page' username=user.username %}">
+          <a href="{{ user.profile.get_absolute_url }}">
             <p>{{ user.username }}</p>
           </a>
         </div>

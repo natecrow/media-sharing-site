@@ -2,7 +2,7 @@
 
 {% block image_info_below %}
   <p>Uploader:
-    <a href="{% url 'accounts:profile_page' username=pic.user.username %}">
+    <a href="{{ request.user.profile.get_absolute_url }}">
       {{ pic.user.username }}
     </a>
   </p>

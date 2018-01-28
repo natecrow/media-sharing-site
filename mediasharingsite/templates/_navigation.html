@@ -17,7 +17,7 @@
           </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated %}
-          <li><a href="{% url 'accounts:profile_page' username=request.user.username %}">View Profile</a></li>
+          <li><a href="{{ request.user.profile.get_absolute_url }}">View Profile</a></li>
           <li><a href="{% url 'accounts:edit_profile' %}">Edit Profile</a></li>
           <li><a href="{% url 'upload_images' %}">Upload Images</a></li>
           <li><a href="{% url 'accounts:logout' %}">Logout</a></li>

@@ -10,5 +10,5 @@
     <button type="submit">Submit</button>
   </form>
 
-  <p><a href="{% url 'accounts:profile_page' username=user.username %}">Cancel</a></p>
+  <p><a href="{{ request.user.profile.get_absolute_url }}">Cancel</a></p>
 {% endblock %}
