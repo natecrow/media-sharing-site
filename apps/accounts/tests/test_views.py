@@ -53,7 +53,6 @@ class TestLogin(TestCase):
             last_name=constants.VALID_LAST_NAME,
             **credentials
         )
-        test_user.save()
 
         response = self.client.post(
             reverse('accounts:login'), credentials, follow=True)
@@ -83,6 +82,9 @@ class TestEditProfile(TestCase):
         self.test_user.profile.profile_picture = constants.VALID_PROFILE_PIC
         self.test_user.is_active = True
         self.test_user.save()
+
+    def tearDown(self):
+        User.objects.get(id=self.test_user.id).delete()
 
     def test_edit_profile_page_redirects_to_login_page_when_not_logged_in(self):
         response = self.client.get(reverse('accounts:edit_profile'))
@@ -167,6 +169,9 @@ class TestChangeProfilePicture(TestCase):
         self.test_user.is_active = True
         self.test_user.save()
 
+    def tearDown(self):
+        User.objects.get(id=self.test_user.id).delete()
+
     def test_change_profile_picture_page_redirects_to_login_page_when_not_logged_in(self):
         response = self.client.post(
             reverse('accounts:change_profile_picture'),
@@ -236,8 +241,6 @@ class TestProfilePage(TestCase):
         )
         self.test_user.profile.gender = constants.VALID_GENDER
         self.test_user.profile.location = constants.VALID_LOCATION
-        self.test_user.is_active = True
-        self.test_user.save()
 
     def test_profile_page_loads_positive(self):
         """
@@ -260,6 +263,9 @@ class TestProfilePage(TestCase):
         # Info that shouldn't be displayed
         self.assertNotContains(response, constants.VALID_EMAIL)
         self.assertNotContains(response, constants.VALID_PASSWORD)
+
+        # tear down
+        User.objects.get(id=self.test_user.id).delete()
 
     def test_age_is_unknown_when_user_has_not_given_birth_date(self):
         response = self.client.get(self.test_user.profile.get_absolute_url())

@@ -82,6 +82,9 @@ class TestProfileAncillaryFunctions(TestCase):
         profile_from_db = User.objects.get(id=self.test_user.id).profile
         self.assertEqual(profile_from_db.location, NEW_LOCATION)
 
+        # tear down
+        User.objects.get(id=self.test_user.id).delete()
+
     def test_do_not_save_user_profile_when_user_is_not_saved(self):
         # check that user's profile is not saved when user is not saved
         profile_from_db = User.objects.get(id=self.test_user.id).profile

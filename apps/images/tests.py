@@ -36,11 +36,9 @@ class TestImage(TestCase):
             email=VALID_EMAIL,
             **self.credentials
         )
-        self.test_user.is_active = True
-        self.test_user.save()
 
     def tearDown(self):
-        User.objects.get(username=VALID_USERNAME).delete()
+        User.objects.get(id=self.test_user.id).delete()
 
     def test_auto_delete_image_on_delete(self):
         test_image = Image.objects.create(
