@@ -4,7 +4,8 @@ from django.shortcuts import render
 
 
 def profiles_directory(request):
-    user_list = User.objects.all()
+    # order users by latest to earlier joined
+    user_list = User.objects.order_by('-date_joined')
 
     paginator = Paginator(user_list, 20)  # Number of profiles per page
 
