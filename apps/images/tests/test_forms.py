@@ -32,3 +32,18 @@ class TestImageUploadForm(TestCase):
         form = ImageUploadForm(
             files={'image': constants.TEXT_FILE})
         self.assertFalse(form.is_valid())
+
+
+class TestImageEditForm(TestCase):
+
+    def test_form_with_valid_tags(self):
+        form = ImageEditForm(data={'tags': 'test 1 2 3'})
+        self.assertTrue(form.is_valid())
+
+    def test_form_with_no_tags(self):
+        form = ImageEditForm(data={})
+        self.assertTrue(form.is_valid())
+
+    def test_form_with_empty_tags(self):
+        form = ImageEditForm(data={'tags': ''})
+        self.assertTrue(form.is_valid())
