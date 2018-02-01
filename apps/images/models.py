@@ -28,7 +28,7 @@ class MediaFile(models.Model):
 
 class Image(MediaFile):
     image = models.ImageField(upload_to=get_image_path)
-    tags = tagulous_models.TagField(to=ImageTag)
+    tags = tagulous_models.TagField(to=ImageTag, blank=True)
 
     def __str__(self):
         return str(self.image.name)

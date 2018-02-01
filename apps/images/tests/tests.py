@@ -6,7 +6,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.utils.six import BytesIO
 
-from .models import Image
+from ..models import Image
 
 
 def create_image(size=(800, 600), image_mode='RGB', image_format='JPEG'):

@@ -35,7 +35,7 @@ class ImageUploadView(FormView):
             return self.form_invalid(form)
 
     def get_success_url(self):
-        return self.request.user.get_absolute_url()
+        return self.request.user.profile.get_absolute_url()
 
 
 def images(request):
