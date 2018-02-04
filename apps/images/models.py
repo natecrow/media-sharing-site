@@ -7,7 +7,7 @@ from tagulous import models as tagulous_models
 
 
 def get_image_path(instance, filename):
-    return os.path.join('user', str(instance.user.id), filename)
+    return os.path.join('user', str(instance.id), filename)
 
 
 # Workaround to prevent naming error from tagulous

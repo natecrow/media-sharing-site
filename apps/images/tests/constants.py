@@ -11,6 +11,11 @@ def create_image(size=(800, 600), image_mode='RGB', image_format='JPEG'):
 
 
 # valid data
+VALID_FIRST_NAME = 'John'
+VALID_LAST_NAME = 'Doe'
+VALID_EMAIL = 'john.doe@test.com'
+VALID_USERNAME = 'johndoe'
+VALID_PASSWORD = 'password123'
 VALID_IMAGE = SimpleUploadedFile(
     'test_image.jpg', create_image().getvalue())
 
