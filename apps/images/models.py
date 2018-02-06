@@ -3,6 +3,7 @@ import os
 from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import receiver
+from django.urls import reverse
 from tagulous import models as tagulous_models
 
 
@@ -29,6 +30,9 @@ class MediaFile(models.Model):
 class Image(MediaFile):
     image = models.ImageField(upload_to=get_image_path)
     tags = tagulous_models.TagField(to=ImageTag, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('view_image', args=[str(self.id)])
 
     def __str__(self):
         return str(self.image.name)
