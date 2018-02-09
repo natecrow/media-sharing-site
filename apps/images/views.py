@@ -2,19 +2,20 @@ import logging
 import os
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic.edit import FormView
 
-from .forms import ImageUploadForm, ImageEditForm
+from .forms import ImageEditForm, ImageUploadForm
 from .models import Image
 
 logger = logging.getLogger('uploads')
 
 
-# @login_required(login_url='accounts:login')
-class ImageUploadView(FormView):
+class ImageUploadView(LoginRequiredMixin, FormView):
+    login_url = 'accounts:login'
     form_class = ImageUploadForm
     template_name = 'images/upload_images.html'
 
