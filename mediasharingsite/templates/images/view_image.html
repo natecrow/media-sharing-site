@@ -5,7 +5,7 @@
 {% block content %}
   <p>
     <label>Uploader:</label>
-    <a href="{{ request.user.profile.get_absolute_url }}">
+    <a href="{{ picture.user.profile.get_absolute_url }}">
       {{ picture.user.username }}
     </a>
   </p>
@@ -23,7 +23,7 @@
     </p>
   {% else %}
     <p>
-      <label>Tags</label>
+      <label>Tags:</label>
       {{ picture.tags }}
     </p>
   {% endif %}

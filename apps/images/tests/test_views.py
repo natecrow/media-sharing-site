@@ -88,6 +88,10 @@ class TestImages(TestCase):
             email=constants.VALID_EMAIL
         )
 
+    @classmethod
+    def tearDownClass(cls):
+        User.objects.get(id=cls.test_user.id).delete()
+
     def test_no_images_to_display(self):
         response = self.client.get(reverse('images'))
 
@@ -204,7 +208,8 @@ class TestImages(TestCase):
 
         # Check that selected tags are displayed and don't have links
         self.assertContains(response, 'Tags')
-        self.assertContains(response, '<a href="/images/?page=1">clear all</a>')
+        self.assertContains(
+            response, '<a href="/images/?page=1">clear all</a>')
         self.assertContains(response, 'selected:\n      \n        def')
         self.assertNotContains(response, '<a href="/images/?tag=def">')
 
@@ -214,9 +219,9 @@ class TestImages(TestCase):
 
         # Check that test image 1 is NOT on page
         self.assertNotContains(response, '<a href="/media/' +
-                            test_image_1.image.name + '"')
+                               test_image_1.image.name + '"')
         self.assertNotContains(response, '<img src="/media/' +
-                            test_image_1.image.name + '"')
+                               test_image_1.image.name + '"')
 
         # Check that test image 2 is on page
         self.assertContains(response, '<a href="/media/' +
@@ -261,24 +266,27 @@ class TestImages(TestCase):
 
         # Check that selected tags are displayed and don't have links
         self.assertContains(response, 'Tags')
-        self.assertContains(response, '<a href="/images/?page=1">clear all</a>')
-        self.assertContains(response, 'selected:\n      \n        def\n      \n        ghi')
+        self.assertContains(
+            response, '<a href="/images/?page=1">clear all</a>')
+        self.assertContains(
+            response, 'selected:\n      \n        def\n      \n        ghi')
         self.assertNotContains(response, '<a href="/images/?tag=def&tag=ghi">')
 
         # Check that links for additional tags are shown
-        self.assertContains(response, '<a href="/images/?tag=abc&tag=def&amp;tag=ghi">')
+        self.assertContains(
+            response, '<a href="/images/?tag=abc&tag=def&amp;tag=ghi">')
 
         # Check that test image 1 is NOT on page
         self.assertNotContains(response, '<a href="/media/' +
-                            test_image_1.image.name + '"')
+                               test_image_1.image.name + '"')
         self.assertNotContains(response, '<img src="/media/' +
-                            test_image_1.image.name + '"')
+                               test_image_1.image.name + '"')
 
         # Check that test image 2 is on page
         self.assertNotContains(response, '<a href="/media/' +
-                            test_image_2.image.name + '"')
+                               test_image_2.image.name + '"')
         self.assertNotContains(response, '<img src="/media/' +
-                            test_image_2.image.name + '"')
+                               test_image_2.image.name + '"')
 
         # Check that test image 3 is on page
         self.assertContains(response, '<a href="/media/' +
@@ -290,3 +298,78 @@ class TestImages(TestCase):
         self.assertContains(response, 'Uploader:')
         self.assertContains(response, '<a href="' +
                             self.test_user.profile.get_absolute_url() + '"')
+
+
+class TestViewImage(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.test_user = User.objects.create_user(
+            username=constants.VALID_USERNAME,
+            password=constants.VALID_PASSWORD,
+            email=constants.VALID_EMAIL
+        )
+        cls.test_user.is_active = True
+        cls.test_user.save()
+
+        cls.test_image = Image.objects.create(
+            image=constants.VALID_IMAGE,
+            user=cls.test_user,
+            tags=['abc', 'def']
+        )
+
+    @classmethod
+    def tearDownClass(cls):
+        User.objects.get(id=cls.test_user.id).delete()
+
+    def test_view_image_without_logging_in(self):
+        response = self.client.get(
+            reverse('view_image', kwargs={'image_id': self.test_image.id})
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Uploader:')
+        self.assertContains(response, '<a href="' +
+                            self.test_user.profile.get_absolute_url() + '"')
+        self.assertContains(response, 'Upload date:')
+        self.assertContains(
+            response, self.test_image.uploaded_date.strftime("%b. %d, %Y"))
+        self.assertContains(response, '<label>Tags:</label>\n      abc, def')
+
+        # Check that test image is on page
+        self.assertContains(response, 'src="/media/' +
+                            self.test_image.image.name + '"')
+
+    def test_view_image_after_logging_in(self):
+        self.client.login(username=constants.VALID_USERNAME,
+                          password=constants.VALID_PASSWORD)
+
+        response = self.client.get(
+            reverse('view_image', kwargs={'image_id': self.test_image.id})
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Uploader:')
+        self.assertContains(response, '<a href="' +
+                            self.test_user.profile.get_absolute_url() + '"')
+        self.assertContains(response, 'Upload date:')
+        self.assertContains(
+            response, self.test_image.uploaded_date.strftime("%b. %d, %Y"))
+        self.assertContains(response, '<label for="id_tags">Tags:</label> <input type="text" name="tags" value="abc, def"')
+
+        # Check that test image is on page
+        self.assertContains(response, 'src="/media/' +
+                            self.test_image.image.name + '"')
+
+    def test_change_tags(self):
+        self.client.login(username=constants.VALID_USERNAME,
+                          password=constants.VALID_PASSWORD)
+
+        response = self.client.post(
+            reverse('view_image', kwargs={'image_id': self.test_image.id}),
+            {'tags': 'def, ghi'}
+        )
+        updated_test_image = Image.objects.get(id=self.test_image.id)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(updated_test_image.tags, ['def', 'ghi'])
