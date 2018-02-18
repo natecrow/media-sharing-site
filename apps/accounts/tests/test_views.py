@@ -291,13 +291,15 @@ class TestAgeCalculation(TestCase):
                                  'Actual age is not the expected age')
 
     def test_calculate_age_with_switched_dates(self):
-        self.assertRaises(AssertionError, views.calculate_age,
-                          date(2017, 8, 14), date(1993, 12, 4))
+        with self.assertRaisesRegex(AssertionError, 'from_date 2017-08-14 comes after the to_date 1993-12-04'):
+            views.calculate_age(date(2017, 8, 14), date(1993, 12, 4))
 
-    def test_calculate_age_with_invalid_type_1st_param(self):
-        self.assertRaises(AssertionError, views.calculate_age,
-                          constants.INVALID_BIRTH_DATE, date(1993, 12, 4))
+    def test_calculate_age_with_invalid_type_from_date(self):
+        with self.assertRaisesRegex(AssertionError, 'from_date 12.12.1985 is not a date'):
+            views.calculate_age(
+                constants.INVALID_BIRTH_DATE, date(1993, 12, 4))
 
-    def test_calculate_age_with_invalid_type_2nd_param(self):
-        self.assertRaises(AssertionError, views.calculate_age,
-                          date(2017, 8, 14), constants.INVALID_BIRTH_DATE)
+    def test_calculate_age_with_invalid_type_to_date(self):
+        with self.assertRaisesRegex(AssertionError, 'to_date 12.12.1985 is not a date'):
+            views.calculate_age(date(2017, 8, 14),
+                                constants.INVALID_BIRTH_DATE)

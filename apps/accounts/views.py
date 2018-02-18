@@ -113,11 +113,11 @@ def profile_redirect(request):
 
 def calculate_age(from_date, to_date):
     # parameters should be dates
-    assert(isinstance(from_date, date))
-    assert(isinstance(to_date, date))
+    assert isinstance(from_date, date), 'from_date %s is not a date' % from_date
+    assert isinstance(to_date, date), 'to_date %s is not a date' % to_date
 
     # interval should range from past to future
-    assert(from_date < to_date)
+    assert from_date < to_date, 'from_date %s comes after the to_date %s' % (from_date, to_date)
 
     # subtract a year if the current month and day
     # has not reached the birth month and day
