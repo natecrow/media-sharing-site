@@ -1,0 +1,59 @@
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+
+    {% if items.has_previous %}
+      {% if selected_tags_for_url_parameter %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1&tags={{ selected_tags_for_url_parameter }}">first</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ items.previous_page_number }}&tags={{ selected_tags_for_url_parameter }}">previous</a>
+        </li>
+      {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">first</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ items.previous_page_number }}">previous</a>
+        </li>
+      {% endif %}
+    {% endif %}
+
+    {% for i in page_numbers %}
+      {% if i == items.number %}
+        <li class="page-item active">
+          <span class="page-link disabled">{{ i }}</span><span class="sr-only">(current)</span>
+        </li>
+      {% else %}
+        {% if selected_tags_for_url_parameter %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ i }}&tags={{ selected_tags_for_url_parameter }}">{{ i }}</a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+          </li>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    {% if items.has_next %}
+      {% if selected_tags_for_url_parameter %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ items.next_page_number }}&tags={{ selected_tags_for_url_parameter }}">next</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ items.paginator.num_pages }}&tags={{ selected_tags_for_url_parameter }}">last</a>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ items.next_page_number }}">next</a>
+        </li>
+        <li clas="page-item">
+            <a class="page-link" href="?page={{ items.paginator.num_pages }}">last</a>
+        </li>
+      {% endif %}
+    {% endif %}
+
+  </ul>
+</nav>

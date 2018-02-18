@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.directory',
     'apps.images',
+    "apps.utils",
 
     # external apps
     'sorl.thumbnail',
