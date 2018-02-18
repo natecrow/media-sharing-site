@@ -1,4 +1,4 @@
-<div>
+<div class="tag-box">
   <h3>Tags</h3>
   {% if selected_tags %}
     <p>
@@ -12,13 +12,13 @@
     </p>
   {% endif %}
   {% if tags %}
-    <p>
+    <ul>
       {% for tag in tags %}
-        <a href="{% url 'images' %}?tag={{ tag|slugify }}{% if url_query_string %}&{{ url_query_string }}{% endif %}">
-          {{tag}}
-        </a>
+        <li>
+          <a class="btn btn-primary" role="button" href="{% url 'images' %}?tag={{ tag|slugify }}{% if url_query_string %}&{{ url_query_string }}{% endif %}">{{tag}}</a>
+        </li>
       {% endfor %}
-    </p>
+    </ul>
   {% else %}
     <p>There are no tags to display.</p>
   {% endif %}

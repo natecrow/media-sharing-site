@@ -1,9 +1,0 @@
-{% extends "images/__base_image_gallery.html" %}
-
-{% block image_info_below %}
-  <p>Uploader:
-    <a href="{{ pic.user.profile.get_absolute_url }}">
-      {{ pic.user.username }}
-    </a>
-  </p>
-{% endblock %}

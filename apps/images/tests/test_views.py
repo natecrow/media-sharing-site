@@ -125,21 +125,16 @@ class TestImages(TestCase):
         self.assertContains(response, 'There are no tags to display.')
 
         # Check that test image 1 is on page
-        self.assertContains(response, '<a href="/media/' +
-                            test_image_1.image.name + '"')
-        self.assertContains(response, '<img src="/media/' +
+        self.assertContains(response, 'href="' +
+                            str(test_image_1.get_absolute_url()) + '"')
+        self.assertContains(response, 'src="/media/' +
                             test_image_1.image.name + '"')
 
         # Check that test image 2 is on page
-        self.assertContains(response, '<a href="/media/' +
+        self.assertContains(response, 'href="' +
+                            str(test_image_2.get_absolute_url()) + '"')
+        self.assertContains(response, 'src="/media/' +
                             test_image_2.image.name + '"')
-        self.assertContains(response, '<img src="/media/' +
-                            test_image_2.image.name + '"')
-
-        # Check that test user is shown on page as uploader
-        self.assertContains(response, 'Uploader:')
-        self.assertContains(response, '<a href="' +
-                            self.test_user.profile.get_absolute_url() + '"')
 
     def test_show_all_images(self):
         # Create images with tags
@@ -162,25 +157,20 @@ class TestImages(TestCase):
 
         # Check that tag links are on page
         self.assertContains(response, 'Tags')
-        self.assertContains(response, '<a href="/images/?tag=abc">')
-        self.assertContains(response, '<a href="/images/?tag=def">')
+        self.assertContains(response, 'href="/images/?tag=abc"')
+        self.assertContains(response, 'href="/images/?tag=def"')
 
         # Check that test image 1 is on page
-        self.assertContains(response, '<a href="/media/' +
-                            test_image_1.image.name + '"')
-        self.assertContains(response, '<img src="/media/' +
+        self.assertContains(response, 'href="' +
+                            str(test_image_1.get_absolute_url()) + '"')
+        self.assertContains(response, 'src="/media/' +
                             test_image_1.image.name + '"')
 
         # Check that test image 2 is on page
-        self.assertContains(response, '<a href="/media/' +
+        self.assertContains(response, 'href="' +
+                            str(test_image_2.get_absolute_url()) + '"')
+        self.assertContains(response, 'src="/media/' +
                             test_image_2.image.name + '"')
-        self.assertContains(response, '<img src="/media/' +
-                            test_image_2.image.name + '"')
-
-        # Check that test user is shown on page as uploader
-        self.assertContains(response, 'Uploader:')
-        self.assertContains(response, '<a href="' +
-                            self.test_user.profile.get_absolute_url() + '"')
 
     def test_show_images_by_tag(self):
         # Create images with tags
@@ -209,36 +199,31 @@ class TestImages(TestCase):
         # Check that selected tags are displayed and don't have links
         self.assertContains(response, 'Tags')
         self.assertContains(
-            response, '<a href="/images/?page=1">clear all</a>')
+            response, 'href="/images/?page=1">clear all</a>')
         self.assertContains(response, 'selected:\n      \n        def')
-        self.assertNotContains(response, '<a href="/images/?tag=def">')
+        self.assertNotContains(response, 'href="/images/?tag=def"')
 
         # Check that links for additional tags are shown
-        self.assertContains(response, '<a href="/images/?tag=abc&tag=def">')
-        self.assertContains(response, '<a href="/images/?tag=ghi&tag=def">')
+        self.assertContains(response, 'href="/images/?tag=abc&tag=def"')
+        self.assertContains(response, 'href="/images/?tag=ghi&tag=def"')
 
         # Check that test image 1 is NOT on page
-        self.assertNotContains(response, '<a href="/media/' +
-                               test_image_1.image.name + '"')
-        self.assertNotContains(response, '<img src="/media/' +
+        self.assertNotContains(response, 'href="' +
+                               str(test_image_1.get_absolute_url()) + '"')
+        self.assertNotContains(response, 'src="/media/' +
                                test_image_1.image.name + '"')
 
         # Check that test image 2 is on page
-        self.assertContains(response, '<a href="/media/' +
-                            test_image_2.image.name + '"')
-        self.assertContains(response, '<img src="/media/' +
+        self.assertContains(response, 'href="' +
+                            str(test_image_2.get_absolute_url()) + '"')
+        self.assertContains(response, 'src="/media/' +
                             test_image_2.image.name + '"')
 
         # Check that test image 3 is on page
-        self.assertContains(response, '<a href="/media/' +
+        self.assertContains(response, 'href="' +
+                            str(test_image_3.get_absolute_url()) + '"')
+        self.assertContains(response, 'src="/media/' +
                             test_image_3.image.name + '"')
-        self.assertContains(response, '<img src="/media/' +
-                            test_image_3.image.name + '"')
-
-        # Check that test user is shown on page as uploader
-        self.assertContains(response, 'Uploader:')
-        self.assertContains(response, '<a href="' +
-                            self.test_user.profile.get_absolute_url() + '"')
 
     def test_show_images_by_multiple_tags(self):
         # Create images with tags
@@ -267,37 +252,32 @@ class TestImages(TestCase):
         # Check that selected tags are displayed and don't have links
         self.assertContains(response, 'Tags')
         self.assertContains(
-            response, '<a href="/images/?page=1">clear all</a>')
+            response, 'href="/images/?page=1">clear all</a>')
         self.assertContains(
             response, 'selected:\n      \n        def\n      \n        ghi')
-        self.assertNotContains(response, '<a href="/images/?tag=def&tag=ghi">')
+        self.assertNotContains(response, 'href="/images/?tag=def&tag=ghi"')
 
         # Check that links for additional tags are shown
         self.assertContains(
-            response, '<a href="/images/?tag=abc&tag=def&amp;tag=ghi">')
+            response, 'href="/images/?tag=abc&tag=def&amp;tag=ghi"')
 
         # Check that test image 1 is NOT on page
-        self.assertNotContains(response, '<a href="/media/' +
-                               test_image_1.image.name + '"')
-        self.assertNotContains(response, '<img src="/media/' +
+        self.assertNotContains(response, 'href="' +
+                               str(test_image_1.get_absolute_url()) + '"')
+        self.assertNotContains(response, 'src="/media/' +
                                test_image_1.image.name + '"')
 
         # Check that test image 2 is on page
-        self.assertNotContains(response, '<a href="/media/' +
-                               test_image_2.image.name + '"')
-        self.assertNotContains(response, '<img src="/media/' +
+        self.assertNotContains(response, 'href="' +
+                               str(test_image_2.get_absolute_url()) + '"')
+        self.assertNotContains(response, 'src="/media/' +
                                test_image_2.image.name + '"')
 
         # Check that test image 3 is on page
-        self.assertContains(response, '<a href="/media/' +
+        self.assertContains(response, 'href="' +
+                            str(test_image_3.get_absolute_url()) + '"')
+        self.assertContains(response, 'src="/media/' +
                             test_image_3.image.name + '"')
-        self.assertContains(response, '<img src="/media/' +
-                            test_image_3.image.name + '"')
-
-        # Check that test user is shown on page as uploader
-        self.assertContains(response, 'Uploader:')
-        self.assertContains(response, '<a href="' +
-                            self.test_user.profile.get_absolute_url() + '"')
 
 
 class TestViewImage(TestCase):
@@ -350,12 +330,13 @@ class TestViewImage(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Uploader:')
-        self.assertContains(response, '<a href="' +
+        self.assertContains(response, 'href="' +
                             self.test_user.profile.get_absolute_url() + '"')
         self.assertContains(response, 'Upload date:')
         self.assertContains(
             response, self.test_image.uploaded_date.strftime("%b. %d, %Y"))
-        self.assertContains(response, '<label for="id_tags">Tags:</label> <input type="text" name="tags" value="abc, def"')
+        self.assertContains(
+            response, '<label for="id_tags">Tags:</label> <input type="text" name="tags" value="abc, def"')
 
         # Check that test image is on page
         self.assertContains(response, 'src="/media/' +
@@ -373,3 +354,70 @@ class TestViewImage(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(updated_test_image.tags, ['def', 'ghi'])
+
+
+class TestDeterminePageNumbers(TestCase):
+
+    def test_determine_page_numbers_with_standard_parameters(self):
+        # [middle_number, max_numbers_per_side, total_numbers,
+        # expected list of numbers]
+        params = [
+            [1, 3, 10, [1, 2, 3, 4]],
+            [2, 3, 10, [1, 2, 3, 4, 5]],
+            [3, 3, 10, [1, 2, 3, 4, 5, 6]],
+            [4, 3, 10, [1, 2, 3, 4, 5, 6, 7]],
+            [5, 3, 10, [2, 3, 4, 5, 6, 7, 8]],
+            [6, 3, 10, [3, 4, 5, 6, 7, 8, 9]],
+            [7, 3, 10, [4, 5, 6, 7, 8, 9, 10]],
+            [8, 3, 10, [5, 6, 7, 8, 9, 10]],
+            [9, 3, 10, [6, 7, 8, 9, 10]],
+            [10, 3, 10, [7, 8, 9, 10]],
+            [1, 3, 1, [1]],
+        ]
+        for middle_number, max_numbers_per_side, total_numbers, expected_list_of_numbers in params:
+            actual_list_of_numbers = views.determine_page_numbers(
+                middle_number, max_numbers_per_side, total_numbers)
+            self.assertEqual(actual_list_of_numbers, expected_list_of_numbers)
+
+    def test_determine_page_numbers_with_middle_number_as_0(self):
+        with self.assertRaisesRegex(AssertionError,
+                                    'Middle number 0 is outside the allowed range'):
+            views.determine_page_numbers(0, 3, 10)
+
+    def test_determine_page_numbers_with_negative_middle_number(self):
+        with self.assertRaisesRegex(AssertionError,
+                                    'Middle number -1 is outside the allowed range'):
+            views.determine_page_numbers(-1, 3, 10)
+
+    def test_determine_page_numbers_with_middle_number_higher_than_total_numbers(self):
+        with self.assertRaisesRegex(AssertionError,
+                                    'Middle number 11 is outside the allowed range'):
+            views.determine_page_numbers(11, 3, 10)
+
+    def test_determine_page_numbers_with_0_max_numbers_per_side(self):
+        # [middle_number, max_numbers_per_side, total_numbers,
+        # expected list of numbers]
+        params = [
+            [1, 0, 3, [1]],
+            [2, 0, 3, [2]],
+            [3, 0, 3, [3]],
+        ]
+        for middle_number, max_numbers_per_side, total_numbers, expected_list_of_numbers in params:
+            actual_list_of_numbers = views.determine_page_numbers(
+                middle_number, max_numbers_per_side, total_numbers)
+            self.assertEqual(actual_list_of_numbers, expected_list_of_numbers)
+
+    def test_determine_page_numbers_with_negative_max_numbers_per_side(self):
+        with self.assertRaisesRegex(AssertionError,
+                                    'Max numbers per side -1 is not 0 or higher'):
+            views.determine_page_numbers(5, -1, 10)
+
+    def test_determine_page_numbers_with_0_total_numbers(self):
+        with self.assertRaisesRegex(AssertionError,
+                                    'Total numbers 0 is not 1 or more'):
+            views.determine_page_numbers(5, 3, 0)
+
+    def test_determine_page_numbers_with_negative_total_numbers(self):
+        with self.assertRaisesRegex(AssertionError,
+                                    'Total numbers -1 is not 1 or more'):
+            views.determine_page_numbers(5, 3, -1)

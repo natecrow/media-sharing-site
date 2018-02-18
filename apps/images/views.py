@@ -62,21 +62,50 @@ def images(request):
     paginator = Paginator(image_list, 20)  # Number of pictures per page
     page = request.GET.get('page')
     try:
-        image = paginator.page(page)
+        images = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        image = paginator.page(1)
+        images = paginator.page(1)
     except EmptyPage:
         # If page is out of range, deliver last page of results.
-        image = paginator.page(paginator.num_pages)
+        images = paginator.page(paginator.num_pages)
+
+    # list of page numbers to display
+    page_numbers = determine_page_numbers(
+        middle_number=images.number,
+        max_numbers_per_side=3,
+        total_numbers=paginator.num_pages
+    )
 
     url_query_string = request.GET.urlencode()
 
-    context = {'pictures': image, 'page': page,
+    context = {'pictures': images, 'page': page, 'page_numbers': page_numbers,
                'tags': tags, 'selected_tags': selected_tags,
                'url_query_string': url_query_string}
 
     return render(request, 'images/images.html', context)
+
+
+def determine_page_numbers(middle_number, max_numbers_per_side, total_numbers):
+    '''
+    Determine and return list of page numbers to display, with the current page
+    number in the middle of the list ("middle_number") and the given amount of
+    pages numbers on each side of it ("numbers_per_side").
+    '''
+    assert max_numbers_per_side >= 0, 'Max numbers per side %r is not 0 or higher' % max_numbers_per_side
+    assert total_numbers >= 1, 'Total numbers %r is not 1 or more' % total_numbers
+    assert middle_number >= 1 and middle_number <= total_numbers, 'Middle number %r is outside the allowed range' % middle_number
+
+    page_numbers = []
+    for i in range(max_numbers_per_side, 0, -1):
+        if middle_number - i >= 1:
+            page_numbers.append(middle_number - i)
+    if middle_number >= 1 and middle_number <= total_numbers:
+        page_numbers.append(middle_number)
+    for i in range(1, max_numbers_per_side + 1):
+        if middle_number + i <= total_numbers:
+            page_numbers.append(middle_number + i)
+    return page_numbers
 
 
 def view_image(request, image_id):
