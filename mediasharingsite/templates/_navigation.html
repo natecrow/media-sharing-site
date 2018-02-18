@@ -1,31 +1,44 @@
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="{% url 'homepage' %}">Home</a>
-    </div>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'homepage' %}">Home</a>
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-left">
-          <li><a href="{% url 'images' %}">Images</a></li>
-          <li><a href="{% url 'directory:profiles_directory' %}">Directory</a></li>
-          </ul>
-      <ul class="nav navbar-nav navbar-right">
-        {% if request.user.is_authenticated %}
-          <li><a href="{{ request.user.profile.get_absolute_url }}">View Profile</a></li>
-          <li><a href="{% url 'accounts:edit_profile' %}">Edit Profile</a></li>
-          <li><a href="{% url 'upload_images' %}">Upload Images</a></li>
-          <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
-        {% else %}
-          <li><a href="{% url 'accounts:login' %}">Login</a></li>
-          <li><a href="{% url 'accounts:signup' %}">Signup</a></li>
-        {% endif %}
-      </ul>
-    </div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'images' %}">Images</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'directory:profiles_directory' %}">Directory</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav">
+      {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ request.user.profile.get_absolute_url }}">View Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'accounts:edit_profile' %}">Edit Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'upload_images' %}">Upload Images</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'accounts:signup' %}">Signup</a>
+        </li>
+      {% endif %}
+    </ul>
   </div>
 </nav>
