@@ -7,7 +7,7 @@
         <div class="col-lg-3 col-md-4 col-xs-6 mb-4">
           {% thumbnail pic "300x300" crop="center" as im %}
             <a href="{{ pic.get_absolute_url }}">
-              <img class="img-fluid img-thumbnail" src="{{ pic.image.url }}" height="{{ im.height }}" width="{{ im.width }}" />
+              <img class="img-fluid img-thumbnail" src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}" />
             </a>
           {% endthumbnail %}
         </div>
