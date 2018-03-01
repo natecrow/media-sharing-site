@@ -3,29 +3,50 @@
 {% block title %}{{ picture_basename }}{% endblock %}
 
 {% block content %}
-  <p>
-    <label>Uploader:</label>
-    <a href="{{ picture.user.profile.get_absolute_url }}">
-      {{ picture.user.username }}
-    </a>
-  </p>
-  <p>
-    <label>Upload date:</label>
-    {{ picture_upload_date }}
-  </p>
-  {% if request.user.is_authenticated and picture.user == request.user %}
-    <p>
-      <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit edits</button>
-      </form>
-    </p>
-  {% else %}
-    <p>
-      <label>Tags:</label>
-      {{ picture.tags }}
-    </p>
-  {% endif %}
-  <img class="fit" src="{{ picture.image.url }}" alt="{{ picture.image.name }}" />
+
+<div class="container">
+  <div class="row">
+
+    <!-- Image info section -->
+    <div class="col-lg-3 col-xs-0 mb-4">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th scope="row">Uploader</th>
+            <td>
+              <a href="{{ picture.user.profile.get_absolute_url }}">{{ picture.user.username }}</a>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Upload date</th>
+            <td>{{ picture_upload_date }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Tags</th>
+            <td>{{ picture.tags }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+      <!-- Image -->
+    <div class="col mb-4">
+      <img class="img-fluid" src="{{ picture.image.url }}" alt="{{ picture.image.name }}" />
+    </div>
+
+  </div>
+
+  <div class="row">
+    {% if request.user.is_authenticated and picture.user == request.user %}
+      <p>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">Submit edits</button>
+        </form>
+      </p>
+    {% endif %}
+  </div>
+
+</div>
 {% endblock %}
