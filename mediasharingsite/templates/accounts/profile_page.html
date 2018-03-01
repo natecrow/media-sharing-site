@@ -1,25 +1,68 @@
 {% extends '__base.html' %}
 
+{% load static %}
 {% load thumbnail %}
 
 {% block title %}{{ user.username }}'s Profile{% endblock %}
 
 {% block content %}
-  <h2>{{ user.username }}</h2>
-  {% if user.profile.profile_picture %}
-    {% thumbnail user.profile.profile_picture "150x150" crop="center" as im %}
-      <img src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}"/>
-    {% endthumbnail %}
-  {% endif %}
-  <br><br>
-    <p><label>Name:</label> {{ user.first_name }} {{ user.last_name }}</p>
-    <p><label>Gender:</label> {{ user.profile.get_gender_display }}</p>
-    <p><label>Location:</label> {{ user.profile.location }}</p>
-    {% if age %}
-      <p><label>Age:</label> {{age}}</p>
-    {% endif %}
-  <div>
-    <h3>Uploaded Images</h3>
-    {% include "images/_image_gallery.html" with pictures=pictures %}
+
+<div class="container">
+  <div class="row align-items-center text-center">
+
+    <div class="col-lg-2 col-md-1 col-xs-0 mb-4"></div>
+
+    <div class="col-lg col-md col-xs-6 mb-4">
+      {% if user.profile.profile_picture %}
+        {% thumbnail user.profile.profile_picture "300x300" crop="center" as im %}
+          <img class="img-fluid img-thumbnail" src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}"/>
+        {% endthumbnail %}
+      {% else %}
+        <img class="img-fluid img-thumbnail" src="{% static "images/default_profile_pic.svg" %}" alt="profile pic" height="300" width="300"/>
+      {% endif %}
+    </div>
+
+    <div class="col-lg col-md col-xs-6 mb-4">
+      <h1>{{ user.username }}</h1>
+      <br>
+      <table class="table">
+        <tbody>
+          {% if user.first_name %}
+            <tr>
+              <th scope="row">Name</th>
+              <td>{{ user.first_name }} {{ user.last_name }}</td>
+            </tr>
+          {% endif %}
+          {% if age %}
+            <tr>
+              <th scope="row"td>Age</th>
+              <td>{{ age }}</td>
+            </tr>
+          {% endif %}
+          {% if user.profile.get_gender_display %}
+            <tr>
+              <th scope="row">Gender</th>>
+              <td>{{ user.profile.get_gender_display }}</td>
+            </tr>
+          {% endif %}
+          {% if user.profile.location %}
+            <tr>
+              <th scope="row">Location</th>
+              <td>{{ user.profile.location }}</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-lg-2 col-md-1 col-xs-0 mb-4"></div>
+
   </div>
+</div>
+
+<div>
+  <h3>Uploaded Images</h3>
+  {% include "images/_image_gallery.html" with pictures=pictures %}
+</div>
+
 {% endblock %}
