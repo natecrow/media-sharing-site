@@ -258,7 +258,7 @@ class TestProfilePage(TestCase):
         self.assertContains(response, constants.VALID_LAST_NAME)
         self.assertContains(response, constants.VALID_GENDER)
         self.assertContains(response, constants.VALID_LOCATION)
-        self.assertContains(response, 'Age:')
+        self.assertContains(response, 'Age')
 
         # Info that shouldn't be displayed
         self.assertNotContains(response, constants.VALID_EMAIL)
@@ -271,7 +271,7 @@ class TestProfilePage(TestCase):
         response = self.client.get(self.test_user.profile.get_absolute_url())
         self.assertEqual(response.status_code, 200)
 
-        self.assertNotContains(response, 'Age:')
+        self.assertNotContains(response, 'Age')
 
 
 class TestAgeCalculation(TestCase):

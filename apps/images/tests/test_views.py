@@ -127,14 +127,12 @@ class TestImages(TestCase):
         # Check that test image 1 is on page
         self.assertContains(response, 'href="' +
                             str(test_image_1.get_absolute_url()) + '"')
-        self.assertContains(response, 'src="/media/' +
-                            test_image_1.image.name + '"')
+        self.assertContains(response, 'src="/media/cache')
 
         # Check that test image 2 is on page
         self.assertContains(response, 'href="' +
                             str(test_image_2.get_absolute_url()) + '"')
-        self.assertContains(response, 'src="/media/' +
-                            test_image_2.image.name + '"')
+        self.assertContains(response, 'src="/media/cache')
 
     def test_show_all_images(self):
         # Create images with tags
@@ -163,14 +161,12 @@ class TestImages(TestCase):
         # Check that test image 1 is on page
         self.assertContains(response, 'href="' +
                             str(test_image_1.get_absolute_url()) + '"')
-        self.assertContains(response, 'src="/media/' +
-                            test_image_1.image.name + '"')
+        self.assertContains(response, 'src="/media/cache')
 
         # Check that test image 2 is on page
         self.assertContains(response, 'href="' +
                             str(test_image_2.get_absolute_url()) + '"')
-        self.assertContains(response, 'src="/media/' +
-                            test_image_2.image.name + '"')
+        self.assertContains(response, 'src="/media/cache')
 
     def test_show_images_by_tag(self):
         # Create images with tags
@@ -210,20 +206,16 @@ class TestImages(TestCase):
         # Check that test image 1 is NOT on page
         self.assertNotContains(response, 'href="' +
                                str(test_image_1.get_absolute_url()) + '"')
-        self.assertNotContains(response, 'src="/media/' +
-                               test_image_1.image.name + '"')
 
         # Check that test image 2 is on page
         self.assertContains(response, 'href="' +
                             str(test_image_2.get_absolute_url()) + '"')
-        self.assertContains(response, 'src="/media/' +
-                            test_image_2.image.name + '"')
+        self.assertContains(response, 'src="/media/cache')
 
         # Check that test image 3 is on page
         self.assertContains(response, 'href="' +
                             str(test_image_3.get_absolute_url()) + '"')
-        self.assertContains(response, 'src="/media/' +
-                            test_image_3.image.name + '"')
+        self.assertContains(response, 'src="/media/cache')
 
     def test_show_images_by_multiple_tags(self):
         # Create images with tags
@@ -264,20 +256,15 @@ class TestImages(TestCase):
         # Check that test image 1 is NOT on page
         self.assertNotContains(response, 'href="' +
                                str(test_image_1.get_absolute_url()) + '"')
-        self.assertNotContains(response, 'src="/media/' +
-                               test_image_1.image.name + '"')
 
         # Check that test image 2 is on page
         self.assertNotContains(response, 'href="' +
                                str(test_image_2.get_absolute_url()) + '"')
-        self.assertNotContains(response, 'src="/media/' +
-                               test_image_2.image.name + '"')
 
         # Check that test image 3 is on page
         self.assertContains(response, 'href="' +
                             str(test_image_3.get_absolute_url()) + '"')
-        self.assertContains(response, 'src="/media/' +
-                            test_image_3.image.name + '"')
+        self.assertContains(response, 'src="/media/cache')
 
 
 class TestViewImage(TestCase):
@@ -308,13 +295,12 @@ class TestViewImage(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Uploader:')
+        self.assertContains(response, 'Uploader')
         self.assertContains(response, '<a href="' +
                             self.test_user.profile.get_absolute_url() + '"')
-        self.assertContains(response, 'Upload date:')
-        self.assertContains(
-            response, self.test_image.uploaded_date.strftime("%b. %d, %Y"))
-        self.assertContains(response, '<label>Tags:</label>\n      abc, def')
+        self.assertContains(response, 'Upload date')
+        self.assertContains(response, 'Tags')
+        self.assertContains(response, 'abc, def')
 
         # Check that test image is on page
         self.assertContains(response, 'src="/media/' +
@@ -329,12 +315,10 @@ class TestViewImage(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Uploader:')
+        self.assertContains(response, 'Uploader')
         self.assertContains(response, 'href="' +
                             self.test_user.profile.get_absolute_url() + '"')
-        self.assertContains(response, 'Upload date:')
-        self.assertContains(
-            response, self.test_image.uploaded_date.strftime("%b. %d, %Y"))
+        self.assertContains(response, 'Upload date')
         self.assertContains(
             response, '<label for="id_tags">Tags:</label> <input type="text" name="tags" value="abc, def"')
 
