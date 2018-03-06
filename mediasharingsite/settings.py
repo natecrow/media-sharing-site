@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # internal apps
+    'mediasharingsite',
     'apps.accounts',
     'apps.directory',
     'apps.images',
