@@ -1,3 +1,7 @@
+.navbar {
+    margin-bottom: 2rem;
+  }
+
 div.tag-box ul li {
     list-style: none;
     float: left;

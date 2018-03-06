@@ -9,30 +9,28 @@
 
 <h1>Profiles</h1>
 
-<div class="container">
-  {% if users %}
-    <div class="row text-center text-lg-left">
-      {% for user in users %}
-        <div class="col-lg-3 col-md-4 col-xs-6 mb-4">
-          <a href="{{ user.profile.get_absolute_url }}">
-            {% if user.profile.profile_picture %}
-              {% thumbnail user.profile.profile_picture "300x300" crop="center" as im %}
-                <img class="img-fluid img-thumbnail" src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}" />
-              {% endthumbnail %}
-            {% else %}
-                <img class="img-fluid img-thumbnail" src="{% static "images/default_profile_pic.svg" %}" alt="profile pic" height="300" width="300"/>
-            {% endif %}
-          </a>
-          <a href="{{ user.profile.get_absolute_url }}">
-              <p>{{ user.username }}</p>
-          </a>
-        </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>There are no profiles to display.</p>
-  {% endif %}
-</div>
+{% if users %}
+  <div class="row text-center text-lg-left">
+    {% for user in users %}
+      <div class="col-lg-3 col-md-4 col-xs-6 mb-4">
+        <a href="{{ user.profile.get_absolute_url }}">
+          {% if user.profile.profile_picture %}
+            {% thumbnail user.profile.profile_picture "300x300" crop="center" as im %}
+              <img class="img-fluid img-thumbnail" src="{{ im.url }}" height="{{ im.height }}" width="{{ im.width }}" />
+            {% endthumbnail %}
+          {% else %}
+              <img class="img-fluid img-thumbnail" src="{% static "images/default_profile_pic.svg" %}" alt="profile pic" height="300" width="300"/>
+          {% endif %}
+        </a>
+        <a href="{{ user.profile.get_absolute_url }}">
+            <p>{{ user.username }}</p>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>There are no profiles to display.</p>
+{% endif %}
 
 {% include "images/_pagination.html" with items=users %}
 
