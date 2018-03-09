@@ -20,9 +20,8 @@ class Profile(models.Model):
     profile_picture = models.ImageField(
         upload_to=get_image_path, blank=True, null=True)
     GENDERS = [
-        ('-', ''),
-        ('m', 'male'),
-        ('f', 'female')
+        ('M', 'male'),
+        ('F', 'female')
     ]
     gender = models.CharField(max_length=1, choices=GENDERS, blank=True)
 

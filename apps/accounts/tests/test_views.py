@@ -112,7 +112,7 @@ class TestEditProfile(TestCase):
         updated_first_name = 'Jane'
         updated_last_name = 'Dough'
         updated_email = 'jane.dough@test.com'
-        updated_gender = 'f'
+        updated_gender = 'F'
         updated_location = 'Testlandia'
         valid_data = {
             'first_name': updated_first_name,

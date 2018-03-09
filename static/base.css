@@ -23,3 +23,15 @@ div.tag-box ul li>a {
     margin-right: 5px;
     outline: 0 !important;
 }
+
+/* Gender radio selection style */
+ul#id_gender {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+ul#id_gender li {
+    padding: 1rem;
+    display: inline;
+}

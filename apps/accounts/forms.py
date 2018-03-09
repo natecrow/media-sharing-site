@@ -13,7 +13,7 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required.')
     birth_date = forms.DateField(widget=forms.widgets.DateInput(
         attrs={'type': 'date'}), required=False)
-    gender = forms.ChoiceField(choices=Profile.GENDERS, required=False)
+    gender = forms.ChoiceField(choices=Profile.GENDERS, widget=forms.widgets.RadioSelect, required=False)
     location = forms.CharField(max_length=30, required=False)
 
     def clean(self):
@@ -22,6 +22,11 @@ class SignUpForm(UserCreationForm):
 
         if birth_date and birth_date > date.today():
             raise forms.ValidationError('Birth date cannot be in the future.')
+
+    def __init__(self, *args, **kwargs):
+        super(SignUpForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.pop('autofocus', None)
+        self.fields['email'].widget.attrs['autofocus'] = 'on'
 
     class Meta:
         model = User
