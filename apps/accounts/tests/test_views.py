@@ -187,7 +187,7 @@ class TestChangeProfilePicture(TestCase):
         response = self.client.get(reverse('accounts:change_profile_picture'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Profile picture:')
-        self.assertContains(response, 'Return to profile')
+        self.assertContains(response, 'Cancel')
 
     def test_change_profile_picture_positive(self):
         # TODO: fix this test
