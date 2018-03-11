@@ -38,8 +38,8 @@ class EditProfileForm(forms.ModelForm):
     first_name = forms.CharField(max_length=30, required=False)
     last_name = forms.CharField(max_length=30, required=False)
     email = forms.EmailField(max_length=254, required=False)
+    gender = forms.ChoiceField(choices=Profile.GENDERS, widget=forms.widgets.RadioSelect, required=False)
     location = forms.CharField(max_length=30, required=False)
-    gender = forms.ChoiceField(choices=Profile.GENDERS, required=False)
 
     class Meta:
         model = User
