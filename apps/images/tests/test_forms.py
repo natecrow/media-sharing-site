@@ -22,7 +22,7 @@ class TestImageUploadForm(TestCase):
 
     def test_form_with_no_image(self):
         form = ImageUploadForm(files={})
-        self.assertFalse(form.is_valid())
+        self.assertTrue(form.is_valid())
 
     def test_form_with_no_tags(self):
         form = ImageUploadForm(files={'image': constants.VALID_IMAGE})

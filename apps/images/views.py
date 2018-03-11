@@ -48,9 +48,9 @@ def images(request):
         # handle spaces in any tags
         selected_tags = [tag.replace('-', ' ') for tag in selected_tags]
         image_list = Image.objects.filter(
-            tags=','.join(selected_tags)).order_by('uploaded_date')
+            tags=','.join(selected_tags)).order_by('-uploaded_date')
     else:
-        image_list = Image.objects.all().order_by('uploaded_date')
+        image_list = Image.objects.all().order_by('-uploaded_date')
 
     # get list of tags from all images
     tags = []
