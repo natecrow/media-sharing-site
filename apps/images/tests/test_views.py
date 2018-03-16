@@ -196,7 +196,7 @@ class TestImages(TestCase):
         self.assertContains(response, 'Tags')
         self.assertContains(
             response, 'href="/images/?page=1">clear all</a>')
-        self.assertContains(response, 'selected:\n      \n        def')
+        self.assertContains(response, 'def')
         self.assertNotContains(response, 'href="/images/?tag=def"')
 
         # Check that links for additional tags are shown
@@ -245,8 +245,8 @@ class TestImages(TestCase):
         self.assertContains(response, 'Tags')
         self.assertContains(
             response, 'href="/images/?page=1">clear all</a>')
-        self.assertContains(
-            response, 'selected:\n      \n        def\n      \n        ghi')
+        self.assertContains(response, 'def')
+        self.assertContains(response, 'ghi')
         self.assertNotContains(response, 'href="/images/?tag=def&tag=ghi"')
 
         # Check that links for additional tags are shown

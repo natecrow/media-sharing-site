@@ -1,27 +1,5 @@
 .navbar {
     margin-bottom: 2rem;
-  }
-
-div.tag-box ul li {
-    list-style: none;
-    float: left;
-}
-
-div.tag-box ul li>a {
-    height: 24px;
-    line-height: 20px;
-    font-size: 14px;
-    margin-top: 2px;
-    border-radius: 12px;
-    display: inline-block;
-    border: 1px solid #1c4772;
-    background: linear-gradient(to bottom,#416181 0,#5989b9 100%);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.19);
-    color: #fff;
-    text-decoration: none;
-    padding: 0 9px;
-    margin-right: 5px;
-    outline: 0 !important;
 }
 
 /* Gender radio selection style */
