@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
@@ -12,6 +14,9 @@ from ..models import Image
 class TestImageUploadView(TestCase):
 
     def setUp(self):
+        # Disable logging temporarily
+        logging.disable(logging.CRITICAL)
+
         # create test user
         self.test_user = User.objects.create_user(
             username=constants.VALID_USERNAME,
@@ -23,6 +28,12 @@ class TestImageUploadView(TestCase):
 
     def tearDown(self):
         User.objects.get(id=self.test_user.id).delete()
+
+        # Set file pointer back to beginning of file so that it is not empty
+        constants.VALID_IMAGE.seek(0)
+
+        # Re-enable logging
+        logging.disable(logging.NOTSET)
 
     def test_upload_images_page_redirects_to_login_page_when_not_logged_in_GET(self):
         response = self.client.get(reverse('upload_images'))
@@ -46,21 +57,22 @@ class TestImageUploadView(TestCase):
         self.assertContains(response, 'Tags:')
 
     def test_upload_images_valid_image(self):
-        # TODO: fix this test
-        pass
-        # self.client.login(username=constants.VALID_USERNAME,
-        #                   password=constants.VALID_PASSWORD)
+        self.client.login(username=constants.VALID_USERNAME,
+                          password=constants.VALID_PASSWORD)
 
-        # response = self.client.post(reverse('upload_images'),
-        #                             {'image': constants.VALID_IMAGE},
-        #                             follow=True)
+        # No images should exist prior to upload
+        self.assertEqual(Image.objects.count(), 0)
 
-        # # expected_last_url = self.test_user.profile.get_absolute_url()
-        # # self.assertRedirects(response, expected_last_url)
+        response = self.client.post(reverse('upload_images'),
+                                    {'image': constants.VALID_IMAGE},
+                                    follow=True)
 
-        # # Assert that image was uploaded
-        # uploaded_image = get_object_or_404(Image, image=constants.VALID_EMAIL)
-        # self.assertEquals(uploaded_image, constants.VALID_IMAGE)
+        # Should redirect to user's profile page
+        expected_last_url = self.test_user.profile.get_absolute_url()
+        self.assertRedirects(response, expected_last_url)
+
+        # Image should be uploaded
+        self.assertEqual(Image.objects.count(), 1)
 
     def test_upload_images_wrong_file_type(self):
         self.client.login(username=constants.VALID_USERNAME,

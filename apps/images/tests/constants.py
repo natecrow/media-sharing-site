@@ -17,7 +17,7 @@ VALID_EMAIL = 'john.doe@test.com'
 VALID_USERNAME = 'johndoe'
 VALID_PASSWORD = 'password123'
 VALID_IMAGE = SimpleUploadedFile(
-    'test_image.jpg', create_image().getvalue())
+    'test_image.jpg', create_image().getvalue(), content_type="image/jpg")
 
 # invalid data
 TEXT_FILE = SimpleUploadedFile(

@@ -32,7 +32,7 @@ class ImageUploadView(LoginRequiredMixin, FormView):
                 image = Image(image=f, user=request.user)
                 image.tags = form.cleaned_data['tags']
                 image.save()
-                logger.info('Saved image \"' + f.name + '\"')
+                logger.info('Saved image \"' + f.name + '\" as \"' + str(image) + '\"')
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
