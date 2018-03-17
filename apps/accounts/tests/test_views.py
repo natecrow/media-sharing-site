@@ -172,6 +172,9 @@ class TestChangeProfilePicture(TestCase):
     def tearDown(self):
         User.objects.get(id=self.test_user.id).delete()
 
+        # Set file pointer back to beginning of file so that it is not empty
+        constants.VALID_PROFILE_PIC.seek(0)
+
     def test_change_profile_picture_page_redirects_to_login_page_when_not_logged_in(self):
         response = self.client.post(
             reverse('accounts:change_profile_picture'),
@@ -184,31 +187,31 @@ class TestChangeProfilePicture(TestCase):
     def test_change_profile_picture_page_loads(self):
         self.client.login(username=constants.VALID_USERNAME,
                           password=constants.VALID_PASSWORD)
+
         response = self.client.get(reverse('accounts:change_profile_picture'))
+
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Profile picture:')
         self.assertContains(response, 'Cancel')
 
     def test_change_profile_picture_positive(self):
-        # TODO: fix this test
-        pass
-        # self.client.login(username=constants.VALID_USERNAME,
-        #                   password=constants.VALID_PASSWORD)
+        self.client.login(username=constants.VALID_USERNAME,
+                          password=constants.VALID_PASSWORD)
 
-        # response = self.client.post(reverse('accounts:change_profile_picture'),
-        #                             {'profile_picture': constants.VALID_PROFILE_PIC},
-        #                              follow=True)
+        # User should not have a profile picture before upload
+        self.assertFalse(self.test_user.profile.profile_picture)
 
-        # print('Size of profile picture in test: ', constants.VALID_PROFILE_PIC.size)
-        # # print('\n\nResponse content: ' + response.content.decode())
+        response = self.client.post(reverse('accounts:change_profile_picture'),
+                                    {'profile_picture': constants.VALID_PROFILE_PIC},
+                                     follow=True)
 
-        # expected_last_url = self.test_user.profile.get_absolute_url()
-        # self.assertRedirects(response, expected_last_url)
+        # Should redirect to user's profile page
+        expected_last_url = self.test_user.profile.get_absolute_url()
+        self.assertRedirects(response, expected_last_url)
 
-        # # Assert that profile picture was changed
-        # updated_user = User.objects.get(id=self.test_user.id)
-        # self.assertEqual(updated_user.profile.profile_picture,
-        #                  constants.VALID_PROFILE_PIC)
+        # User should now have a profile picture after upload
+        updated_user = User.objects.get(id=self.test_user.id)
+        self.assertTrue(updated_user.profile.profile_picture)
 
     def test_change_profile_picture_negative(self):
         self.client.login(username=constants.VALID_USERNAME,
